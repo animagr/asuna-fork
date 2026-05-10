@@ -17,7 +17,7 @@ local function convert_data()
 			name = name.name
 		end
 		data.name = name
-		print("Converting data for " .. name)
+		minetest.log("action", "Converting data for " .. name)
 
 		-- Just rename counted
 		local counted = {
@@ -69,7 +69,7 @@ function awards.load()
 	local old_save_path = minetest.get_worldpath().."/awards.txt"
 	local file = io.open(old_save_path, "r")
 	if file then
-		local table = minetest.deserialize(file:read("*all"))
+		local table = minetest.deserialize(file:read("*all"), true)
 		if type(table) == "table" then
 			__player_data = table
 			convert_data()

@@ -187,7 +187,7 @@ core.register_entity('x_farming:stove_food', {
             return
         end
 
-        local _staticdata = core.deserialize(staticdata)
+        local _staticdata = core.deserialize(staticdata, true)
 
         for key, value in pairs(_staticdata) do
             self[key] = value
@@ -216,7 +216,7 @@ core.register_entity('x_farming:stove_food', {
                 or core.get_item_group(node_under.name, 'heat_source') < 1
             then
                 local meta = core.get_meta(vector.new(pos.x, pos.y - 0.5, pos.z))
-                local grid_matrix = core.deserialize(meta:get_string('grid_matrix'))
+                local grid_matrix = core.deserialize(meta:get_string('grid_matrix'), true)
 
                 if not grid_matrix then
                     return
@@ -435,7 +435,7 @@ core.register_node('x_farming:stove_active', {
     end,
     on_timer = function(pos, elapsed)
         local meta = core.get_meta(pos)
-        local grid_matrix = core.deserialize(meta:get_string('grid_matrix'))
+        local grid_matrix = core.deserialize(meta:get_string('grid_matrix'), true)
 
         if not grid_matrix then
             return
@@ -628,7 +628,7 @@ core.register_node('x_farming:stove_active', {
             return itemstack
         end
 
-        local grid_matrix = core.deserialize(meta:get_string('grid_matrix'))
+        local grid_matrix = core.deserialize(meta:get_string('grid_matrix'), true)
         local grid_items = get_grid_matrix_items(grid_matrix)
 
         if #grid_items >= 6 then
@@ -706,7 +706,7 @@ core.register_node('x_farming:stove_active', {
         end
 
         local objs = core.get_objects_inside_radius(pos, 0.7)
-        local grid_matrix = core.deserialize(oldmetadata.fields.grid_matrix)
+        local grid_matrix = core.deserialize(oldmetadata.fields.grid_matrix, true)
         local grid_items = get_grid_matrix_items(grid_matrix)
 
         -- remove entitites

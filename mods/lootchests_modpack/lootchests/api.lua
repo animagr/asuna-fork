@@ -148,7 +148,7 @@ lootchests.register_lootchest = function(def)
                 else
                     minetest.set_node(pos, {name = def.name, param2 = 0})
                 end
-                local rand = PcgRandom(pos.x * pos.y * pos.z)
+                local rand = PcgRandom(minetest.hash_node_position(pos))
                 local inv = minetest.get_inventory({type = "node", pos = pos})
                 for i = 1, slots do
                     if rand:next(0,100) <= slot_spawn_chance then

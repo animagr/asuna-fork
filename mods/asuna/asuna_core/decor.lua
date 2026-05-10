@@ -109,7 +109,7 @@ local flower_colors = {
 		"beautiflowers:nerea",
 		"beautiflowers:noelia",
 		"flowers:rose",
-		"herbs:dosera",
+		"herbs:drosera",
 		"herbs:papaver_red",
 	},
 	pink = {

@@ -15,7 +15,7 @@ creatura.register_mob("animalia:rat", {
 	-- Creatura Props
 	max_health = 5,
 	damage = 0,
-	speed = 1,
+	speed = 3,
 	tracking_range = 8,
 	despawn_after = 200,
 	stepheight = 1.1,

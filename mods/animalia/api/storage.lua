@@ -1,8 +1,8 @@
 local mod_storage = minetest.get_mod_storage()
 
 local data = {
-	spawn_points = minetest.deserialize(mod_storage:get_string("spawn_points")) or {},
-	libri_font_size  = minetest.deserialize(mod_storage:get_string("libri_font_size")) or {},
+	spawn_points = minetest.deserialize(mod_storage:get_string("spawn_points"), true) or {},
+	libri_font_size  = minetest.deserialize(mod_storage:get_string("libri_font_size"), true) or {},
 }
 
 local function save()

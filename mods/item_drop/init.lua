@@ -431,7 +431,7 @@ end
 local time = (minetest.get_us_time() - load_time_start) / 1000000
 local msg = "[item_drop] loaded after ca. " .. time .. " seconds."
 if time > 0.01 then
-	print(msg)
+	minetest.log("action", msg)
 else
 	minetest.log("info", msg)
 end

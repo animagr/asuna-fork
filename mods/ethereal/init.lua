@@ -172,4 +172,4 @@ if core.get_modpath("ambience") then
 	dofile(path .. "/ambience.lua")
 end
 
-print ("[MOD] Ethereal loaded")
+core.log("action", "[MOD] Ethereal loaded")

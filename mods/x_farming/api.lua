@@ -1293,7 +1293,7 @@ function x_farming.register_crate(name, def)
     _def.after_place_node = function(pos, placer, itemstack, pointed_thing)
         local meta = core.get_meta(pos)
         local meta_st = itemstack:get_meta()
-        local crate_inv = core.deserialize(meta_st:get_string('crate_inv'))
+        local crate_inv = core.deserialize(meta_st:get_string('crate_inv'), true)
         local inv = meta:get_inventory()
 
         if crate_inv then
@@ -1578,7 +1578,7 @@ function x_farming.register_bag(name, def)
     _def.after_place_node = function(pos, placer, itemstack, pointed_thing)
         local meta = core.get_meta(pos)
         local meta_st = itemstack:get_meta()
-        local bag_inv = core.deserialize(meta_st:get_string('bag_inv'))
+        local bag_inv = core.deserialize(meta_st:get_string('bag_inv'), true)
         local inv = meta:get_inventory()
 
         if bag_inv then

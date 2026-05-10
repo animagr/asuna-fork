@@ -803,7 +803,7 @@ function mob:activate(staticdata, dtime)
 	end
 
 	-- Staticdata
-	local data = minetest.deserialize(staticdata)
+	local data = minetest.deserialize(staticdata, true)
 
 	if data then
 		local tp

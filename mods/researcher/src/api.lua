@@ -207,7 +207,7 @@ function researcher.get_player_data(player_name)
     if not player_data then
       player_data = researcher.initialize_player_data(player_name)
     else
-      player_data = minetest.deserialize(player_data)
+      player_data = minetest.deserialize(player_data, true)
     end
 
     -- Link research subject to actual research

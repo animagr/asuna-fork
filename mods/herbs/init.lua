@@ -255,4 +255,4 @@ minetest.register_alias("herbs:dosera","herbs:drosera")
 dofile(minetest.get_modpath(modname) .. "/register_mods.lua")
 
 minetest.log("action","[Mod] " .. hb.modname .. " V " .. hb.version .. "." .. hb.revision .. " loaded.")
-print("[Mod] " .. hb.modname .. " V " .. hb.version .. "." .. hb.revision .. " loaded.")
+minetest.log("action", "[Mod] " .. hb.modname .. " V " .. hb.version .. "." .. hb.revision .. " loaded.")

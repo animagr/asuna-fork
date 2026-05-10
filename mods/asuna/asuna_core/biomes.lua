@@ -673,7 +673,7 @@ asuna.biomes = {
     },
     flowers = {"purple","green","black"},
     mushrooms = {"brown","odd"},
-    animals = {"bird","cat","frog","pig","rat","frog"},
+    animals = {"bird","cat","frog","pig","rat"},
     crops = {"melon","stevia","coffee","artichoke","mint","hemp","pineapple","rhubarb"},
     shore = "default:sand",
     seabed = "default:sand",
@@ -1030,7 +1030,7 @@ asuna.biomes = {
     dungeon = {
       node = "everness:crystal_cobble",
       alt = "everness:crystal_stone_brick",
-      stair = "everness:stair_crystal_cobble",
+      stair = "stairs:stair_crystal_cobble",
     },
   },
 

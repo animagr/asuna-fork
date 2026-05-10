@@ -42,6 +42,7 @@ core.register_entity(":astralcraft:warp_star_thrown",{
     -- Get position and check for collision
     local pos = self.object:get_pos()
     local node = core.get_node(pos)
+    if node.name == "ignore" then return end
     local def = core.registered_nodes[node.name]
 
     if def and (def.walkable or def.climbable or def.liquidtype ~= "none") then

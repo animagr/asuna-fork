@@ -258,7 +258,7 @@ local Astralite = {
   -- Player states
   player_states = (function()
     local saved_states = astralcraft.storage:get("astralite_states")
-    return saved_states and core.deserialize(saved_states) or {}
+    return saved_states and core.deserialize(saved_states, true) or {}
   end)(),
 
   -- Flag to indicate that state was changed

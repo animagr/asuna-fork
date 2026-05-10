@@ -1,11 +1,13 @@
-Asuna
-=====
+Asuna (Local Fork)
+==================
 
 Welcome to the vast and vibrant world of Asuna! Journey through a potpourri of natural wonders as you traverse beautiful and breathtaking landscapes. Forests, meadows, jungles, tundras, deserts, swamps, and more await you at every horizon.
 
 This passion project brings together some of the very best biome and world decoration mods that the Minetest community has published to date. Much of Asuna's beauty is owed to the mod authors who have openly shared the fruits of their hard work and imagination. Asuna stands to honor these authors and their works.
 
-[Download at ContentDB](https://content.luanti.org/packages/EmptyStar/asuna/) | [Explore at GitHub](https://github.com/asuna-mt/asuna) | [Join the Discord](https://discord.gg/DqtD9kuk2R)
+This is a fork of [Asuna](https://github.com/asuna-mt/asuna) that removes all git submodule dependencies and embeds all mods directly in the repository. This makes the project fully self-contained: no `git submodule update --init` is needed, and all mod sources can be reviewed, patched, and versioned in one place.
+
+[Upstream on ContentDB](https://content.luanti.org/packages/EmptyStar/asuna/) | [Upstream on GitHub](https://github.com/asuna-mt/asuna) | [Join the Discord](https://discord.gg/DqtD9kuk2R)
 
 Features
 --------

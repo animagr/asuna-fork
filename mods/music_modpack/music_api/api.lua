@@ -25,7 +25,7 @@ local function load_player_settings(name)
         local rawfile = file:read()
         io.close(file)
         if rawfile then
-            local settings = minetest.deserialize(rawfile)
+            local settings = minetest.deserialize(rawfile, true)
             if settings[name] then
                 players[name].settings = settings[name]
             end
@@ -46,7 +46,7 @@ local function save_player_settings(name)
         local rawfile = file:read()
         io.close(file)
         if rawfile then
-            settings = minetest.deserialize(rawfile) or {}
+            settings = minetest.deserialize(rawfile, true) or {}
         end
     end
 

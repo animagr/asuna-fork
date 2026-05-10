@@ -254,4 +254,4 @@ dofile(path .. '/mod_support_mtg.lua')
 
 local mod_end_time = (core.get_us_time() - mod_start_time) / 1000000
 
-print('[Mod] everness loaded.. [' .. mod_end_time .. 's]')
+core.log("action", "[Mod] everness loaded.. [" .. mod_end_time .. "s]")

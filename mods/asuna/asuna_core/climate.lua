@@ -85,10 +85,6 @@ minetest.register_chatcommand("climate",{
   func = function(name)
     local player = minetest.get_player_by_name(name)
 
-    if not minetest.check_player_privs("climate") then
-      return false, "You do not have the 'climate' privilege necessary to use this command."
-    end
-
     local pos = player:get_pos()
     local data = minetest.get_biome_data(pos)
     if data then

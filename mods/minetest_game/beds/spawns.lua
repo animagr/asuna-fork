@@ -27,7 +27,7 @@ function beds.read_spawns()
 		until input:read(0) == nil
 		io.close(input)
 	elseif input and bkwd then
-		beds.spawn = minetest.deserialize(input:read("*all"))
+		beds.spawn = minetest.deserialize(input:read("*all"), true)
 		input:close()
 		beds.save_spawns()
 		os.rename(file, file .. ".backup")

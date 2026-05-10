@@ -579,4 +579,4 @@ end
 
 local mod_end_time = (core.get_us_time() - mod_start_time) / 1000000
 
-print('[Mod] everness: x_obsidianmese support loaded.. [' .. mod_end_time .. 's]')
+core.log("action", "[Mod] everness: x_obsidianmese support loaded.. [" .. mod_end_time .. "s]")

@@ -106,4 +106,4 @@ end
 
 local mod_end_time = (core.get_us_time() - mod_start_time) / 1000000
 
-print('[Mod] x_farming loaded.. [' .. mod_end_time .. 's]')
+core.log("action", "[Mod] x_farming loaded.. [" .. mod_end_time .. "s]")

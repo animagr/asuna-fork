@@ -2,6 +2,46 @@
 
 This file documents the major changes made in each version of Asuna.
 
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## v1.1.6
+
+### Fixed
+
+- Fix crash in Astralcraft shooting star cleanup (`attempt to call method 'is_valid' (a nil value)`)
+  - Use collect-then-remove pattern to avoid mutating `core.luaentities` during iteration
+  - Guard `entity.object.is_valid` existence before calling it
+  - Reorder checks from cheapest to most expensive
+- Fix Astralcraft shooting star spawner node check (`core.get_node(pos) == "air"` always evaluated false)
+- Fix Animalia rat/mouse not moving (speed too low for friction to allow visible movement; increased from 1 to 3)
+- Fix Animalia `basic_seek_food` always triggering (`random(1) < 8` always true; corrected to `random(8) < 2`)
+  - Affected mobs: bear, opossum, fox, frog
+- Fix Crystal Forest dungeon stairs using wrong node name (`everness:` prefix instead of `stairs:`)
+- Fix duplicate "frog" in Living Jungle animal list causing doubled spawn rate
+- Fix broken `check_player_privs` call in `/climate` command (redundant check removed)
+- Fix stale `herbs:dosera` alias references in flower/loot lists (corrected to `herbs:drosera`)
+- Fix loot chests not spawning on savanna terrain (`naturalbiomes:savanna_litter` typo → `naturalbiomes:savannalitter`)
+- Fix loot chest randomization seed collisions causing identical loot at many positions (use `hash_node_position` instead of coordinate multiplication)
+- Fix duplicate glowing stones in loot chest stone_chest table (7 items listed twice)
+
+### Security
+
+- Add safe mode to ~30 `minetest.deserialize()` calls across 14 mods to prevent code execution from corrupt data
+  - Affected mods: creatura, builtin_item, awards, music_api, animalia, 3d_armor, researcher, astralcraft, beds, default, x_farming, herbs
+
+### Changed
+
+- Fork: remove all git submodules and embed all mods directly in the repository for a fully self-contained project
+- Replace `print()` with `minetest.log()`/`core.log()` in 10 production files
+  - Affected mods: builtin_item, x_farming, farming, herbs, everness, awards, item_drop, ethereal
+- Add `ignore` node checks to most relevant runtime callbacks to prevent issues at chunk boundaries
+  - Astralcraft shooting star spawner: skip spawning at unloaded positions
+  - Astralcraft warp star: skip collision detection at unloaded positions (prevents teleporting into unloaded areas)
+  - Animalia ABM spawning: skip mob spawning on unloaded nodes
+
 ## v1.1.5
 
 - Reduce prevalence of slime mold on Mushroom biome shores

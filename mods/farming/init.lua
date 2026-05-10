@@ -876,4 +876,4 @@ if core.get_modpath("lucky_block") then
 	dofile(farming.path .. "/lucky_block.lua")
 end
 
-print("[MOD] Farming Redo loaded")
+minetest.log("action", "[MOD] Farming Redo loaded")

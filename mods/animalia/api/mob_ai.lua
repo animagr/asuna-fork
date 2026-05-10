@@ -1734,7 +1734,7 @@ animalia.mob_ai.basic_seek_crop = {
 animalia.mob_ai.basic_seek_food = {
 	utility = "animalia:basic_seek_food",
 	get_score = function(self)
-		if random(1) < 8 then
+		if random(8) < 2 then
 			return 0.3, {self}
 		end
 		return 0

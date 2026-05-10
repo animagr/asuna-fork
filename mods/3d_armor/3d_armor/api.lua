@@ -864,7 +864,7 @@ end
 --  @tparam string list_string Serialized inventory contents.
 --  @treturn table
 armor.deserialize_inventory_list = function(self, list_string)
-	local list_table = minetest.deserialize(list_string)
+	local list_table = minetest.deserialize(list_string, true)
 	local list = {}
 	for _, stack in ipairs(list_table or {}) do
 		table.insert(list, ItemStack(stack))

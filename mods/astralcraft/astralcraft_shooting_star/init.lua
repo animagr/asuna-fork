@@ -247,7 +247,7 @@ function astralcraft.register_shooting_star_spawner(def)
           local delta_x = math.random(-radius,radius)
           local delta_z = math.random(-radius,radius)
           pos = player:get_pos():offset(delta_x,32,delta_z)
-          if core.get_node(pos) == "air" then
+          if core.get_node(pos).name == "air" then
             break
           end
         end
@@ -256,7 +256,7 @@ function astralcraft.register_shooting_star_spawner(def)
       end
 
       -- Create shooting star entity at the selected origin point
-      if pos then
+      if pos and core.get_node(pos).name ~= "ignore" then
         core.add_entity(pos,"astralcraft:shooting_star")
       end
     end,
@@ -281,11 +281,20 @@ core.register_globalstep(function(dtime)
   if is_day then
     star_destroy_interval = star_destroy_interval - dtime
     if star_destroy_interval <= 0 then
-      for id,entity in pairs(core.luaentities) do
-        local name = entity.name
-        if entity.object and entity.object:is_valid() and entity.name == "__builtin:item" and entity.itemstring and entity.itemstring:find("^astralcraft:shooting_star") and (core.get_natural_light(entity.object:get_pos(),0) or 0) > 0 then
-          entity.object:remove()
+      local to_remove = {}
+      for _, entity in pairs(core.luaentities) do
+        if entity.name == "__builtin:item"
+            and entity.itemstring
+            and entity.itemstring:find("^astralcraft:shooting_star")
+            and entity.object
+            and entity.object.is_valid
+            and entity.object:is_valid()
+            and (core.get_natural_light(entity.object:get_pos(), 0) or 0) > 0 then
+          to_remove[#to_remove + 1] = entity.object
         end
+      end
+      for _, obj in ipairs(to_remove) do
+        obj:remove()
       end
       star_destroy_interval = 5
     end

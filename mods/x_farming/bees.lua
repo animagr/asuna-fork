@@ -21,7 +21,7 @@ local rand = PcgRandom(tonumber(tostring(os.time()):reverse():sub(1, 9)))
 
 local function update_hive_infotext(pos)
     local meta = core.get_meta(pos)
-    local data = core.deserialize(meta:get_string('x_farming'))
+    local data = core.deserialize(meta:get_string('x_farming'), true)
 
     if data then
         local text = 'Occupancy: ' .. data.occupancy .. ' / 3\n'
@@ -49,7 +49,7 @@ end
 
 local function update_bee_infotext(pos)
     local meta = core.get_meta(pos)
-    local data = core.deserialize(meta:get_string('x_farming'))
+    local data = core.deserialize(meta:get_string('x_farming'), true)
 
     if data then
         meta:set_string('infotext', 'Hive position: ' .. data.pos_hive)
@@ -86,7 +86,7 @@ local function is_valid_hive_position(pos, params)
     end
 
     local meta_hive = core.get_meta(pos)
-    local data_hive = core.deserialize(meta_hive:get_string('x_farming'))
+    local data_hive = core.deserialize(meta_hive:get_string('x_farming'), true)
 
     if not data_hive then
         return false
@@ -169,7 +169,7 @@ core.register_node('x_farming:bee_hive', {
     on_timer = function(pos, elapsed)
         -- Hive data
         local meta_hive = core.get_meta(pos)
-        local data_hive = core.deserialize(meta_hive:get_string('x_farming'))
+        local data_hive = core.deserialize(meta_hive:get_string('x_farming'), true)
         local node = core.get_node(pos)
 
         if data_hive.occupancy == 0 then
@@ -245,7 +245,7 @@ core.register_node('x_farming:bee_hive', {
     end,
     on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
         local meta = core.get_meta(pos)
-        local data = core.deserialize(meta:get_string('x_farming'))
+        local data = core.deserialize(meta:get_string('x_farming'), true)
 
         if not data then
             return itemstack
@@ -273,7 +273,7 @@ core.register_node('x_farming:bee_hive', {
         return itemstack
     end,
     after_dig_node = function(pos, oldnode, oldmetadata, digger)
-        local data = core.deserialize(oldmetadata.fields.x_farming)
+        local data = core.deserialize(oldmetadata.fields.x_farming, true)
         local positions = core.find_nodes_in_area_under_air(
             vector.add(pos, 5),
             vector.subtract(pos, 5),
@@ -340,7 +340,7 @@ core.register_node('x_farming:bee_hive_saturated', {
         local stack_name = itemstack:get_name()
         local stack = itemstack
         local meta = core.get_meta(pos)
-        local data = core.deserialize(meta:get_string('x_farming'))
+        local data = core.deserialize(meta:get_string('x_farming'), true)
 
         if stack_name == 'vessels:glass_bottle' or stack_name == 'x_farming:glass_bottle' then
             -- Fill bottle with honey and return it
@@ -395,7 +395,7 @@ core.register_node('x_farming:bee_hive_saturated', {
         return stack
     end,
     after_dig_node = function(pos, oldnode, oldmetadata, digger)
-        local data = core.deserialize(oldmetadata.fields.x_farming)
+        local data = core.deserialize(oldmetadata.fields.x_farming, true)
         local positions = core.find_nodes_in_area_under_air(
             vector.add(pos, 5),
             vector.subtract(pos, 5),
@@ -483,7 +483,7 @@ core.register_node('x_farming:bee', {
     on_timer = function(pos, elapsed)
         -- Bee data
         local meta_bee = core.get_meta(pos)
-        local data_bee = core.deserialize(meta_bee:get_string('x_farming')) or {}
+        local data_bee = core.deserialize(meta_bee:get_string('x_farming'), true) or {}
         local pos_hive = get_valid_hive_position(data_bee.pos_hive and vector.from_string(data_bee.pos_hive) or nil, pos)
 
         if not pos_hive then
@@ -500,7 +500,7 @@ core.register_node('x_farming:bee', {
         end
 
         local meta_hive = core.get_meta(pos_hive)
-        local data_hive = core.deserialize(meta_hive:get_string('x_farming'))
+        local data_hive = core.deserialize(meta_hive:get_string('x_farming'), true)
         local node_hive = core.get_node(pos_hive)
 
         -- Bee go home

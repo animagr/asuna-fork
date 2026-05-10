@@ -395,6 +395,7 @@ minetest.register_abm({
 
 			for _,mpos in ipairs(mob_positions) do
 				local node = minetest.get_node(vector.offset(mpos,0,-1,0)).name
+				if node == "ignore" then break end
 				for _,target in ipairs(spawn_definition.nodes) do
 					if node == target or (target:find("^group:") and minetest.get_item_group(node,target:sub(7)) > 0) then
 						do_on_spawn(mpos, minetest.add_entity(mpos, mob_to_spawn))

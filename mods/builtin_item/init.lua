@@ -226,7 +226,7 @@ core.register_entity(":__builtin:item", {
 
 		if string.sub(staticdata, 1, 6) == "return" then
 
-			local data = core.deserialize(staticdata)
+			local data = core.deserialize(staticdata, true)
 
 			if data and type(data) == "table" then
 				self.itemstring = data.itemstring
@@ -673,4 +673,4 @@ core.register_entity(":__builtin:item", {
 })
 
 
-print("[MOD] Built-in Item loaded")
+core.log("action", "[MOD] Built-in Item loaded")
