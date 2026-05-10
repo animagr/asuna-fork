@@ -1,0 +1,27 @@
+schematic = {
+	size = {x=3, y=2, z=3},
+	yslice_prob = {
+		{ypos=0, prob=254},
+		{ypos=1, prob=254},
+	},
+	data = {
+		{name="everness:crystal_bush_leaves", prob=126, param2=1},
+		{name="everness:crystal_bush_leaves", prob=254, param2=1},
+		{name="everness:crystal_bush_leaves", prob=126, param2=1},
+		{name="everness:crystal_bush_leaves", prob=126, param2=1},
+		{name="everness:crystal_bush_leaves", prob=126, param2=1},
+		{name="everness:crystal_bush_leaves", prob=126, param2=1},
+		{name="everness:crystal_bush_leaves", prob=254, param2=1},
+		{name="everness:crystal_bush_stem", prob=254, param2=0, force_place=true},
+		{name="everness:crystal_bush_leaves", prob=254, param2=1},
+		{name="everness:crystal_bush_leaves", prob=126, param2=1},
+		{name="everness:crystal_bush_leaves", prob=254, param2=1},
+		{name="everness:crystal_bush_leaves", prob=126, param2=1},
+		{name="everness:crystal_bush_leaves", prob=126, param2=1},
+		{name="everness:crystal_bush_leaves", prob=254, param2=1},
+		{name="everness:crystal_bush_leaves", prob=126, param2=1},
+		{name="everness:crystal_bush_leaves", prob=126, param2=1},
+		{name="everness:crystal_bush_leaves", prob=126, param2=1},
+		{name="everness:crystal_bush_leaves", prob=126, param2=1},
+	},
+}

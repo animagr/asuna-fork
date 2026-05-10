@@ -1,0 +1,18 @@
+{
+    "type": "MOD",
+    "title": "Everness ",
+    "name": "everness",
+    "short_description": "Adds many new biomes, items and blocks.",
+    "dev_state": "ACTIVELY_DEVELOPED",
+    "tags": [
+        "environment",
+        "mapgen",
+        "survival",
+        "tools"
+    ],
+    "license": "LGPL-2.1-or-later",
+    "media_license": "CC-BY-SA-4.0",
+    "repo": "https://bitbucket.org/minetest_gamers/everness/src/master/",
+    "issue_tracker": "https://bitbucket.org/minetest_gamers/everness/issues",
+    "video_url": "https://youtu.be/JrIEh2HsYyk"
+}

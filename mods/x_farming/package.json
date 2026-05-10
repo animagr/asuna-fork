@@ -1,0 +1,35 @@
+{
+    "name": "x_farming",
+    "version": "1.0.0",
+    "description": "Adds new farming crops, plants and items.",
+    "main": "index.js",
+    "type": "module",
+    "directories": {
+        "doc": "docs"
+    },
+    "engines": {
+        "node": ">=16.0.0",
+        "npm": ">=8.0.0"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "push:ci": "node ./scripts/deploy.mjs"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://juraj_vajda@bitbucket.org/minetest_gamers/x_farming.git"
+    },
+    "author": "SaKeL",
+    "license": "LGPL-2.1-or-later",
+    "bugs": {
+        "url": "https://bitbucket.org/minetest_gamers/x_farming/issues"
+    },
+    "homepage": "https://bitbucket.org/minetest_gamers/x_farming#readme",
+    "devDependencies": {
+        "node-fetch": "^3.2.10",
+        "yargs": "^17.6.1"
+    },
+    "dependencies": {
+        "dotenv": "^16.5.0"
+    }
+}

@@ -1,2 +1,12 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+*.xcf export-ignore
+*.blend export-ignore
+*.py export-ignore
+*.sh export-ignore
+mods/**/screenshot.png export-ignore
+biome_graph.ggb export-ignore
+.github/** export-ignore
+.github export-ignore
+mods/**/.github/** export-ignore
+mods/**/.github export-ignore
+mods/signs_lib/util/**
+mods/signs_lib/util
