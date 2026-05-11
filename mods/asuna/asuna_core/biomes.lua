@@ -673,7 +673,7 @@ asuna.biomes = {
     },
     flowers = {"purple","green","black"},
     mushrooms = {"brown","odd"},
-    animals = {"bird","cat","frog","pig","rat"},
+    animals = {"bird","cat","frog","pig","rat","frog"},
     crops = {"melon","stevia","coffee","artichoke","mint","hemp","pineapple","rhubarb"},
     shore = "default:sand",
     seabed = "default:sand",

@@ -20,12 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix Animalia `basic_seek_food` always triggering (`random(1) < 8` always true; corrected to `random(8) < 2`)
   - Affected mobs: bear, opossum, fox, frog
 - Fix Crystal Forest dungeon stairs using wrong node name (`everness:` prefix instead of `stairs:`)
-- Fix duplicate "frog" in Living Jungle animal list causing doubled spawn rate
 - Fix broken `check_player_privs` call in `/climate` command (redundant check removed)
 - Fix stale `herbs:dosera` alias references in flower/loot lists (corrected to `herbs:drosera`)
 - Fix loot chests not spawning on savanna terrain (`naturalbiomes:savanna_litter` typo → `naturalbiomes:savannalitter`)
 - Fix loot chest randomization seed collisions causing identical loot at many positions (use `hash_node_position` instead of coordinate multiplication)
-- Fix duplicate glowing stones in loot chest stone_chest table (7 items listed twice)
+
 
 ### Security
 

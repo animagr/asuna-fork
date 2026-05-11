@@ -51,6 +51,13 @@ local loot_groups = {
             "too_many_stones:glow_selenite",
             "too_many_stones:glow_sodalite",
             "too_many_stones:glow_willemite",
+            "too_many_stones:glow_apatite",
+            "too_many_stones:glow_calcite",
+            "too_many_stones:glow_esperite",
+            "too_many_stones:glow_fluorite",
+            "too_many_stones:glow_selenite",
+            "too_many_stones:glow_sodalite",
+            "too_many_stones:glow_willemite",
             6,
         }
     },
