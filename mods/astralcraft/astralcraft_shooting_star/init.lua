@@ -67,9 +67,6 @@ core.register_entity(":astralcraft:shooting_star",{
   end,
 
   on_deactivate = function(self,removal)
-    if not removal then
-      self.object:remove()
-    end
   end,
 
   on_step = function(self,dtime)
@@ -269,6 +266,7 @@ core.register_globalstep(function(dtime)
   -- Do not check for shooting stars during the day
   day_check_timer = day_check_timer - dtime
   if day_check_timer <= 0 then
+    day_check_timer = 5
     local time_of_day = core.get_timeofday()
     if time_of_day < 0.205 or time_of_day > 0.76 then
       is_day = false

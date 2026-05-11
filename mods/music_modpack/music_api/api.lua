@@ -80,8 +80,8 @@ local function play_track(name)
 
     --Assemble list of fitting tracks
     for _,track in pairs(tracks) do
-        if track.name ~= p.previous and ((track.day and time > 0.25 and time < 0.75) or
-        (track.night and ((time < 0.25 and time >= 0) or (time > 0.75 and time <= 1)))) and
+        if track.name ~= p.previous and ((track.day and time > 0.205 and time < 0.76) or
+        (track.night and ((time < 0.205 and time >= 0) or (time > 0.76 and time <= 1)))) and
         player_pos.y >= track.ymin and player_pos.y < track.ymax
         then
             table.insert(possible_tracks, track)
@@ -282,7 +282,7 @@ minetest.register_on_dieplayer(function(player)
 end)
 
 -- Enable music for respawned players
-minetest.register_on_dieplayer(function(player)
+minetest.register_on_respawnplayer(function(player)
     local name = player:get_player_name()
     players[name].is_dead = false
 end)

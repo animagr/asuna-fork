@@ -26,7 +26,7 @@ item_drop = {
 local function legacy_setting_getbool(name_new, name_old, default)
 	local v = minetest.settings:get_bool(name_new)
 	if v == nil then
-		v = minetest.settings:get_bool(name_new)
+		v = minetest.settings:get_bool(name_old)
 	end
 	if default then
 		return v ~= false
@@ -370,7 +370,7 @@ and not minetest.settings:get_bool("creative_mode") then
 		for i = 1,#items_to_spawn do
 			local obj = minetest.add_item(pos, items_to_spawn[i])
 			if not obj then
-				error("Couldn't spawn item " .. name .. ", drops: "
+				error("Couldn't spawn item " .. tostring(items_to_spawn[i]) .. ", drops: "
 					.. dump(drops))
 			end
 

@@ -3,7 +3,7 @@ local cids = {
   shelf = dungeonsplus.dependencies.vessels and core.get_content_id("vessels:shelf") or nil,
   glass_bottle = dungeonsplus.dependencies.vessels and core.get_content_id("vessels:glass_bottle") or nil,
   steel_bottle = dungeonsplus.dependencies.vessels and core.get_content_id("vessels:steel_bottle") or nil,
-  firefly = dungeonsplus.dependencies.vessels and dungeonsplus.dependencies.vessels and core.get_content_id("fireflies:firefly_bottle") or nil,
+  firefly = dungeonsplus.dependencies.fireflies and core.get_content_id("fireflies:firefly_bottle") or nil,
 }
 
 local vs = vector.subtract

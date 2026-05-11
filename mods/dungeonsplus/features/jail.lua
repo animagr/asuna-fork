@@ -160,7 +160,7 @@ return {
     if #bone_zone > 0 then
       local bpos = pcgr:next(1,#bone_zone)
       vdata[bone_zone[bpos]] = cids.bones
-      vparam2[bpos] = pcgr:next(0,3)
+      vparam2[bone_zone[bpos]] = pcgr:next(0,3)
       bone_loot(va:position(bone_zone[bpos]))
     end
 

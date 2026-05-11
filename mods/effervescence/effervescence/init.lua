@@ -160,7 +160,7 @@ if effervescence.settings.environmental.enabled then
                   local particle = effervescence.environmental_particles[particles[i % len + 1]]
                   if particle and particle:check(emitter) then
                     local pdef = particle:emit(emitter)
-                    pdef.playername = pname,
+                    pdef.playername = pname
                     core.add_particlespawner(pdef)
                     already_emitted[hash] = true
                     break

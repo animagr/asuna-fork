@@ -135,7 +135,7 @@ minetest.register_node("marinara:softcoral", {
 	tiles = {"marinara_hardcoral.png"},
 special_tiles = {{name = "marinara_softcoral.png", tileable_vertical = true, waving = 1}},
 	inventory_image = "marinara_softcoral.png",
-	wield_image = "marinara_softcoral_green.png",
+	wield_image = "marinara_softcoral.png",
 	groups = {snappy = 3, coral = 1},
 	selection_box = {
 		type = "fixed",

@@ -7,6 +7,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.1.7
+
+### Fixed
+
+- Fix Worldgate mapgen skipping all remaining gates in a mapchunk when one gate fails to find a location (`return` replaced with `break` to continue to next gate)
+- Fix Worldgate heightmap placement accepting locations with invalid space above (water or unloaded chunks above the gate were not rejecting the candidate)
+- Fix Worldgate `get_gates_for_mapblock` off-by-one loop starting at index 0 instead of 1
+- Fix loop variable shadowing in Worldgate mapgen and linking code (loop index reused as value inside loop body)
+- Fix Astralcraft `day_check_timer` never resetting after first expiry (caused `is_day` check to run every globalstep tick instead of every 5 seconds)
+- Fix Astralcraft star armor `calculate_armor_bonus` writing results inside the element loop (final state depended on undefined `pairs()` iteration order; moved assignment after loop)
+- Fix Astralcraft star armor global `armor` table shadowed by loop variable in `calculate_armor_bonus` and star charm spawner eligibility check
+- Fix Astralcraft star armor globalstep shadowing `player` loop key (string) with player object lookup
+- Fix Astralcraft warp star `reset()` ignoring its `wear` parameter and always applying hardcoded `wear_per_failure`
+- Fix Astralcraft warp star `on_use` parameter shadowed by immediate local redeclaration
+- Fix Astralcraft shooting star `on_deactivate` calling `self.object:remove()` on potentially invalid object during unload
+- Fix Astralcraft astralite particle `minexptime` (4) greater than `maxexptime` (3)
+- Fix Cloudcraft sparse cloud dispersal ABM only checking X/Z neighbors, not Y (thin horizontal cloud sheets would never disperse)
+- Fix Cloudcraft floating cloud mapgen callback mutating `mapgen.pos` without restoring it
+- Remove Cloudcraft debug `/pp` chat command (no privs required, leaked player physics to server log)
+- Fix broken node references `default:stone_with_coal_ore` and `default:stone_with_iron_ore` in terrain decoration `place_on` list (correct names are `default:stone_with_coal` and `default:stone_with_iron`)
+- Fix "Fool's Gold" award referencing non-existent `everness:pyrite_ore` (corrected to `everness:stone_with_pyrite`)
+- Fix Music API using `register_on_dieplayer` instead of `register_on_respawnplayer` for respawn callback (music kept playing during death)
+- Fix Music API inconsistent day/night time boundaries between track selection (0.25/0.75) and track cleanup (0.205/0.76) causing jarring transitions
+- Fix Dungeons Plus jail `vparam2` writing bones rotation to wrong voxel index
+- Fix Dungeons Plus alchemy lab checking `dependencies.vessels` twice instead of `dependencies.fireflies` (firefly bottles never spawned)
+- Fix Researcher GUI crash when clicking duplicate button (`player_name` undefined outside research branch)
+- Fix Item Drop legacy settings fallback checking `name_new` twice instead of falling back to `name_old`
+- Fix Item Drop error message referencing undefined variable `name` (replaced with actual item value)
+- Fix Stamina `set_saturation` calling `player_monoids.speed` without checking if player_monoids mod is loaded
+- Fix Effervescence particle spawner executing before `playername` field is assigned (trailing comma caused evaluation order issue)
+- Fix Marinara soft coral using wrong wield image (`softcoral_green` instead of `softcoral`)
+- Fix Marinara bounty chest #7 missing `S()` translation wrapper
+- Fix Badland moreblocks descriptions copy-pasted from wrong biomes ("Frost Land Wood" → "Badland Wood", "Japanese Tree" → "Badland Tree")
+- Remove mod-level `.gitignore` files inherited from standalone mod repos (blocked `azalea.obj` model from being committed)
+- Add missing `beautiflowers` model `azalea.obj` to repository
+
 ## v1.1.6
 
 ### Fixed

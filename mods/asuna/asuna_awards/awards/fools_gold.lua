@@ -6,7 +6,7 @@ return function(award)
     icon = "[inventorycube{default_stone.png&everness_mineral_pyrite.png{default_stone.png&everness_mineral_pyrite.png{default_stone.png&everness_mineral_pyrite.png",
     trigger = {
       type = "dig",
-      node = "everness:pyrite_ore",
+      node = "everness:stone_with_pyrite",
       target = 1,
     },
   }

@@ -103,12 +103,12 @@ function worldgate.link(pos)
             if do_worldgate_link then
               destination = nil
               local beacons = minetest.find_nodes_in_area(emin:add(vector.new(-1,-1,-1)),emax:add(vector.new(1,1,1)),"group:telemosaic")
-              for beacon = 1, #beacons do
-                beacon = beacons[beacon]
-                local spos = minetest.get_meta(beacon):get("worldgate:source")
+              for bi = 1, #beacons do
+                local bpos = beacons[bi]
+                local spos = minetest.get_meta(bpos):get("worldgate:source")
                 if dpos == spos then
-                  destination = beacon
-                  nodemeta:set_string("telemosaic:dest",hash_pos(beacon))
+                  destination = bpos
+                  nodemeta:set_string("telemosaic:dest",hash_pos(bpos))
                   break
                 end
               end

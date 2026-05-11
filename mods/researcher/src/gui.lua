@@ -319,8 +319,8 @@ local refresh_ui = (function()
 end)()
 
 local do_research = function(player,fields,refresh)
+  local player_name = player:get_player_name()
   if fields.research then
-    local player_name = player:get_player_name()
     local inventory = player:get_inventory()
     local item = inventory:get_stack("research",1)
     if not item:is_empty() then

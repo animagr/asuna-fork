@@ -183,24 +183,3 @@ core.register_node("cloudcraft:cloud_marker",{
   end,
 })
 
-core.register_chatcommand("pp",{
-  params = "",
-  -- Short parameter description.  See the below note.
-
-  description = "",
-  -- General description of the command's purpose.
-
-  privs = {},
-  -- Required privileges to run. See `core.check_player_privs()` for
-  -- the format and see [Privileges] for an overview of privileges.
-
-  func = function(name, param)
-    local player = core.get_player_by_name(name)
-    local physics = player:get_physics_override()
-    local message = "pp " .. name .. ":\n"
-    message = message .. "  speed: " .. physics.speed .. "\n"
-    message = message .. "  jump: " .. physics.jump .. "\n"
-    message = message .. "  gravity: " .. physics.gravity .. "\n"
-    core.log(message)
-  end,
-})

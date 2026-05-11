@@ -99,7 +99,9 @@ end
 
 function stamina.set_saturation(player, level)
 	set_player_attribute(player, attribute.saturation, level)
-	player_monoids.speed:add_change(player, 1 + (level / 80), "stamina:passive_speed")
+	if player_monoids_mod then
+		player_monoids.speed:add_change(player, 1 + (level / 80), "stamina:passive_speed")
+	end
 	player:hud_change(
 		get_hud_id(player),
 		"number",

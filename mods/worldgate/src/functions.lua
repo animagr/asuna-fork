@@ -95,7 +95,7 @@ end
 -- Function for checking a mapblock against the gate hash index
 function worldgate.get_gates_for_mapblock(pos)
   local gates = worldgate.hash_index[minetest.hash_node_position(pos:divide(16):floor())] or {}
-  for i = 0, #gates do
+  for i = 1, #gates do
     gates[i] = worldgate.gates[gates[i]]
   end
   return gates

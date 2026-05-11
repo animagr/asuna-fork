@@ -139,28 +139,28 @@ local function calculate_armor_bonus(player)
   local total_bonus_armor = {}
   local has_bonuses = false
   local set_counter = 0
-  for element,armor in pairs(armor:get_weared_armor_elements(player) or {}) do
-    if armor:find("^astralcraft:star_") then
+  for element,item_name in pairs(armor:get_weared_armor_elements(player) or {}) do
+    if item_name:find("^astralcraft:star_") then
       if full_armor_set[element] then
         set_counter = set_counter + 1
       end
-      local bonuses = armor_bonuses[armor] or {}
+      local bonuses = armor_bonuses[item_name] or {}
       for group,bonus in pairs(bonuses) do
         total_bonus_armor[group] = (total_bonus_armor[group] or 1) - bonus
         has_bonuses = true
       end
     end
+  end
 
-    local pname = player:get_player_name()
-    if has_bonuses then
-      star_armors[pname] = {
-        armor = total_bonus_armor,
-        light = (set_counter > 0) and ("astralcraft:star_armor_light_level_" .. (set_counter * 3 + 2)) or nil,
-      }
-    else
-      armor_monoid.monoid:del_change(player,"astralcraft:star_armor_bonus")
-      star_armors[pname] = nil
-    end
+  local pname = player:get_player_name()
+  if has_bonuses then
+    star_armors[pname] = {
+      armor = total_bonus_armor,
+      light = (set_counter > 0) and ("astralcraft:star_armor_light_level_" .. (set_counter * 3 + 2)) or nil,
+    }
+  else
+    armor_monoid.monoid:del_change(player,"astralcraft:star_armor_bonus")
+    star_armors[pname] = nil
   end
 end
 
@@ -187,8 +187,8 @@ core.register_globalstep(function(dtime)
   if armor_interval <= 0 then
     armor_interval = 4
     local time_of_day = core.get_timeofday()
-    for player,bonus in pairs(star_armors) do
-      player = core.get_player_by_name(player)
+    for pname,bonus in pairs(star_armors) do
+      local player = core.get_player_by_name(pname)
       if player then
         if (time_of_day < 0.205 or time_of_day > 0.76) and (core.get_natural_light(player:get_pos(),0) or 0) > 0 then -- in moonlight at night
           armor_monoid.monoid:add_change(player,bonus.armor,"astralcraft:star_armor_bonus")
@@ -268,8 +268,8 @@ if asuna.content.stratosphere.astralcraft then
     y_max = settings.y_max,
     is_player_eligible = function(self,player)
       local equipment = armor:get_weared_armor_elements(player)
-      for element,armor in pairs(equipment) do
-        if armor == "astralcraft:star_charm" then
+      for element,item_name in pairs(equipment) do
+        if item_name == "astralcraft:star_charm" then
           return true
         end
       end

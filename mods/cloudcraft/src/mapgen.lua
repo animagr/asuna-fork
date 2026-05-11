@@ -126,14 +126,18 @@ abdecor.register_advanced_decoration("cloudcraft_floating_clouds",{
   fn = function(mapgen)
     local pcgr = PcgRandom(mapgen.seed + mapgen.pos.x + mapgen.pos.y + mapgen.pos.z)
     if pcgr:next(1,4) == 1 then
+      local orig_x = mapgen.pos.x
+      local orig_z = mapgen.pos.z
       for _,cloudpos in ipairs({
         {0,0},
         {pcgr:next(3,8),pcgr:next(3,8)},
       }) do
-        mapgen.pos.x = mapgen.pos.x + cloudpos[1]
-        mapgen.pos.z = mapgen.pos.z + cloudpos[2]
+        mapgen.pos.x = orig_x + cloudpos[1]
+        mapgen.pos.z = orig_z + cloudpos[2]
         generate_cloud(mapgen,8,16)
       end
+      mapgen.pos.x = orig_x
+      mapgen.pos.z = orig_z
     end
   end,
 })
@@ -154,14 +158,13 @@ core.register_abm({
 
     local npos = vc(pos)
     local not_cloud = 0
-    for x = -1, 1, 1 do
-      npos.x = pos.x + x
-      for z = -1, 1, 1 do
-        npos.z = pos.z + z
-        if x == 0 or z == 0 then
-          not_cloud = not_cloud + (core.get_node(npos).name ~= "cloudcraft:cloud" and 1 or 0)
-        end
-      end
+    for _,offset in ipairs({
+      {1,0,0},{-1,0,0},{0,1,0},{0,-1,0},{0,0,1},{0,0,-1},
+    }) do
+      npos.x = pos.x + offset[1]
+      npos.y = pos.y + offset[2]
+      npos.z = pos.z + offset[3]
+      not_cloud = not_cloud + (core.get_node(npos).name ~= "cloudcraft:cloud" and 1 or 0)
       if not_cloud > 2 then
         core.set_node(pos,{ name = "air" })
         return

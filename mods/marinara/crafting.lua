@@ -129,7 +129,7 @@ groups = {wood = 1, choppy = 2, flammable = 2},
 })
 
 minetest.register_node("marinara:bountychest7", {
-	description = ("Bounty Chest"),
+	description = S("Bounty Chest"),
 tiles = {
 		"marinara_bootynode_top.png",
 		"marinara_bootynode_bottom.png",

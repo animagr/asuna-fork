@@ -201,7 +201,7 @@ core.register_entity(":astralcraft:warp_star_thrown",{
     -- Add wear penalty
     local item = ItemStack(self.itemstring)
     if wear and wear > 0 then
-      item:add_wear(wear_per_failure)
+      item:add_wear(wear)
     end
 
     -- Drop warp star at player's location if possible, else drop at self location
@@ -242,7 +242,7 @@ core.register_tool(":astralcraft:warp_star",{
   groups = {
     astral = 1,
   },
-  on_use = function(item, player)
+  on_use = function(_, player)
     local wi = player:get_wield_index()
     local item = player:get_inventory():get_stack("main",wi)
     player:get_inventory():set_stack("main",wi,ItemStack())

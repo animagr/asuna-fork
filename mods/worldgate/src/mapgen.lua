@@ -53,9 +53,9 @@ local disallowed_cids = {[minetest.CONTENT_AIR] = true}
 
 minetest.register_on_mods_loaded(function()
   for node,def in pairs(minetest.registered_nodes) do
-    for i = 1, disallowed_nodes_length do
-      i = disallowed_nodes[i]
-      if node == i or minetest.get_item_group(node,i) > 0 then
+    for j = 1, disallowed_nodes_length do
+      local dnode = disallowed_nodes[j]
+      if node == dnode or minetest.get_item_group(node,dnode) > 0 then
         disallowed_cids[minetest.get_content_id(node)] = true
       end
     end
@@ -111,8 +111,8 @@ minetest.register_on_generated(function(minp,maxp,blockseed)
   local zstride = va.zstride
 
   -- Generate the gates in this mapchunk, if any
-  for gate = 1, #gates do
-    gate = gates[gate]
+  for gi = 1, #gates do repeat
+    local gate = gates[gi]
 
     -- Random number generator
     local pcgr = PcgRandom(minetest.hash_node_position(gate.position))
@@ -168,17 +168,21 @@ minetest.register_on_generated(function(minp,maxp,blockseed)
           end
 
           -- Check for valid space above
+          local valid_above = true
           for ypos = pos + ystride * 2, pos + ystride * 10, ystride do
             local ydata = vdata[ypos]
             if not ydata or ydata == minetest.CONTENT_IGNORE or (not underwaterspawn and water[ydata]) then
+              valid_above = false
               break
             end
           end
 
-          -- A valid location was found on the heightmap
-          location = vn(randomx,heightmapy,randomz)
-          strategy = "heightmap"
-          i = 10 -- break outer loop
+          if valid_above then
+            -- A valid location was found on the heightmap
+            location = vn(randomx,heightmapy,randomz)
+            strategy = "heightmap"
+            i = 10 -- break outer loop
+          end
         end
       until true end
 
@@ -225,7 +229,7 @@ minetest.register_on_generated(function(minp,maxp,blockseed)
         for c = 1, #worldgate.worldgate_failed_callbacks do
           worldgate.worldgate_failed_callbacks[c](gate)
         end
-        return -- cannot generate this worldgate
+        break -- cannot generate this worldgate, skip to next
       end
 
       -- Adjust location by y + 1
@@ -301,5 +305,5 @@ minetest.register_on_generated(function(minp,maxp,blockseed)
     for c = 1, #worldgate.worldgate_generated_callbacks do
       worldgate.worldgate_generated_callbacks[c](location,gate,strategy)
     end
-  end
+  until true end
 end)
