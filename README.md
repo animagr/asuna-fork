@@ -7,7 +7,7 @@ This passion project brings together some of the very best biome and world decor
 
 This is a fork of [Asuna](https://github.com/asuna-mt/asuna) that removes all git submodule dependencies and embeds all mods directly in the repository. This makes the project fully self-contained: no `git submodule update --init` is needed, and all mod sources can be reviewed, patched, and versioned in one place.
 
-[Upstream on ContentDB](https://content.luanti.org/packages/EmptyStar/asuna/) | [Upstream on GitHub](https://github.com/asuna-mt/asuna) | [Join the Discord](https://discord.gg/DqtD9kuk2R)
+[Upstream on ContentDB](https://content.luanti.org/packages/EmptyStar/asuna/) | [Upstream on GitHub](https://github.com/asuna-mt/asuna)
 
 Features
 --------
