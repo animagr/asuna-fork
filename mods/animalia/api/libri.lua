@@ -27,6 +27,16 @@ local function correct_string(str)
 	end
 end
 
+local function safe_deserialize(data, fallback)
+	if not data or data == "" then return fallback end
+	local ok, result = pcall(minetest.deserialize, data, true)
+	if ok then
+		return result or fallback
+	end
+	minetest.log("warning", "[animalia] Failed to deserialize libri metadata: " .. tostring(result))
+	return fallback
+end
+
 local pages = {}
 
 local generate_mobs = {
@@ -269,7 +279,7 @@ local function get_item_list(list, offset_x, offset_y) -- Creates a visual list 
 end
 
 function libri.generate_list(meta, offset, start_iter)
-	local chapters = minetest.deserialize(meta:get_string("chapters"), true) or {}
+	local chapters = safe_deserialize(meta:get_string("chapters"), {})
 	local i = 0
 	local elements = ""
 	local offset_x = offset.x
@@ -296,7 +306,7 @@ function libri.generate_list(meta, offset, start_iter)
 end
 
 function libri.render_element(def, meta, playername)
-	local chapters = (meta and minetest.deserialize(meta:get_string("chapters"))) or {}
+	local chapters = (meta and safe_deserialize(meta:get_string("chapters"), {})) or {}
 	local chap_no = 0
 	for _ in pairs(chapters) do
 		chap_no = chap_no + 1
@@ -357,7 +367,7 @@ end
 
 local function get_page(key, meta, playername)
 	local form = table.copy(libri_bg)
-	local chapters = minetest.deserialize(meta:get_string("chapters"), true) or {}
+	local chapters = safe_deserialize(meta:get_string("chapters"), {})
 	local chap_no = 0
 	for _ in pairs(chapters) do
 		chap_no = chap_no + 1
@@ -463,7 +473,7 @@ minetest.register_craftitem("animalia:libri_animalia", {
 	on_secondary_use = function(itemstack, player, pointed)
 		local meta = itemstack:get_meta()
 		if meta:get_string("pages") ~= "" then meta:set_string("pages", "") end
-		local chapters = minetest.deserialize(meta:get_string("chapters"), true) or {}
+		local chapters = safe_deserialize(meta:get_string("chapters"), {})
 		if pointed
 		and pointed.type == "object" then
 			local ent = pointed.ref and pointed.ref:get_luaentity()

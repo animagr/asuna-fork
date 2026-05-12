@@ -83,7 +83,7 @@ end ]]
 
 -- Falling node function
 
-ethereal.check_falling = core.check_for_falling or nodeupdate
+ethereal.check_falling = core.check_for_falling
 
 -- creative check
 

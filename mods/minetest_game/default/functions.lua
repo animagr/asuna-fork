@@ -1036,7 +1036,7 @@ function default.can_interact_with_node(player, pos)
 			end
 
 			key_meta:set_string("secret", minetest.parse_json(key_oldmeta).secret)
-			item:set_metadata("")
+			item:get_meta():set_string("", "")
 		end
 
 		return meta:get_string("key_lock_secret") == key_meta:get_string("secret")

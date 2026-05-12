@@ -31,10 +31,10 @@ local bone_loot = dungeonsplus.dependencies.bonemeal and function(pos)
 
   local bones_formspec =
     "size[8,9]" ..
-    "list[current_name;main;0,0.3;8,4;]" ..
+    "list[context;main;0,0.3;8,4;]" ..
     "list[current_player;main;0,4.85;8,1;]" ..
     "list[current_player;main;0,6.08;8,3;8]" ..
-    "listring[current_name;main]" ..
+    "listring[context;main]" ..
     "listring[current_player;main]" ..
     default.get_hotbar_bg(0,4.85)
   meta:set_string("formspec",bones_formspec)
@@ -48,10 +48,10 @@ end or function(pos)
 
   local bones_formspec =
     "size[8,9]" ..
-    "list[current_name;main;0,0.3;8,4;]" ..
+    "list[context;main;0,0.3;8,4;]" ..
     "list[current_player;main;0,4.85;8,1;]" ..
     "list[current_player;main;0,6.08;8,3;8]" ..
-    "listring[current_name;main]" ..
+    "listring[context;main]" ..
     "listring[current_player;main]" ..
     default.get_hotbar_bg(0,4.85)
   meta:set_string("formspec",bones_formspec)

@@ -131,8 +131,6 @@ animalia.animals = {
 	"animalia:wolf",
 }
 
-dofile(path.."/api/api.lua")
-
 load_file(path .. "/mobs", "bat.lua")
 load_file(path .. "/mobs", "bear.lua")
 load_file(path .. "/mobs", "cat.lua")
@@ -152,8 +150,10 @@ load_file(path .. "/mobs", "turkey.lua")
 load_file(path .. "/mobs", "tropical_fish.lua")
 load_file(path .. "/mobs", "wolf.lua")
 
-minetest.settings:set_bool("spawn_mobs",asuna.content.menagerie.animals)
-if minetest.settings:get_bool("spawn_mobs", true) then
+local spawn_mobs = asuna.content.menagerie.animals
+	and minetest.settings:get_bool("spawn_mobs", true)
+
+if spawn_mobs then
 	dofile(path.."/api/spawning.lua")
 end
 
@@ -198,7 +198,7 @@ if convert_mobs_redo then
 	minetest.register_alias_force("mobs:lasso", "animalia:lasso")
 	minetest.register_alias_force("mobs:net", "animalia:net")
 	minetest.register_alias_force("mobs:shears", "animalia:shears")
-	minetest.register_alias_force("mobs:saddles", "animalia:saddles")
+	minetest.register_alias_force("mobs:saddles", "animalia:saddle")
 	minetest.register_alias_force("mobs:nametag", "animalia:nametag")
 end
 

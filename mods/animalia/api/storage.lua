@@ -1,8 +1,18 @@
 local mod_storage = minetest.get_mod_storage()
 
+local function safe_deserialize(data, fallback)
+	if not data or data == "" then return fallback end
+	local ok, result = pcall(minetest.deserialize, data, true)
+	if ok then
+		return result or fallback
+	end
+	minetest.log("warning", "[animalia] Failed to deserialize mod storage: " .. tostring(result))
+	return fallback
+end
+
 local data = {
-	spawn_points = minetest.deserialize(mod_storage:get_string("spawn_points"), true) or {},
-	libri_font_size  = minetest.deserialize(mod_storage:get_string("libri_font_size"), true) or {},
+	spawn_points = safe_deserialize(mod_storage:get_string("spawn_points"), {}),
+	libri_font_size  = safe_deserialize(mod_storage:get_string("libri_font_size"), {}),
 }
 
 local function save()

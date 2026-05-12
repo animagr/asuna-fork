@@ -20,6 +20,22 @@ local S = core.get_translator(core.get_current_modname())
 
 local stove_fire_sounds = {}
 
+local function safe_deserialize(data, fallback)
+    if not data or data == '' then
+        return fallback
+    end
+
+    local ok, result = pcall(core.deserialize, data, true)
+
+    if ok then
+        return result or fallback
+    end
+
+    core.log('warning', '[x_farming] Failed to deserialize stove data: ' .. tostring(result))
+
+    return fallback
+end
+
 local function get_grid_matrix_items(grid)
     local grid_matrix = table.copy(grid)
     local _items = {}
@@ -187,7 +203,12 @@ core.register_entity('x_farming:stove_food', {
             return
         end
 
-        local _staticdata = core.deserialize(staticdata, true)
+        local _staticdata = safe_deserialize(staticdata)
+
+        if not _staticdata then
+            self.object:remove()
+            return
+        end
 
         for key, value in pairs(_staticdata) do
             self[key] = value
@@ -216,7 +237,7 @@ core.register_entity('x_farming:stove_food', {
                 or core.get_item_group(node_under.name, 'heat_source') < 1
             then
                 local meta = core.get_meta(vector.new(pos.x, pos.y - 0.5, pos.z))
-                local grid_matrix = core.deserialize(meta:get_string('grid_matrix'), true)
+                local grid_matrix = safe_deserialize(meta:get_string('grid_matrix'))
 
                 if not grid_matrix then
                     return
@@ -435,7 +456,7 @@ core.register_node('x_farming:stove_active', {
     end,
     on_timer = function(pos, elapsed)
         local meta = core.get_meta(pos)
-        local grid_matrix = core.deserialize(meta:get_string('grid_matrix'), true)
+        local grid_matrix = safe_deserialize(meta:get_string('grid_matrix'))
 
         if not grid_matrix then
             return
@@ -628,7 +649,12 @@ core.register_node('x_farming:stove_active', {
             return itemstack
         end
 
-        local grid_matrix = core.deserialize(meta:get_string('grid_matrix'), true)
+        local grid_matrix = safe_deserialize(meta:get_string('grid_matrix'))
+
+        if not grid_matrix then
+            return itemstack
+        end
+
         local grid_items = get_grid_matrix_items(grid_matrix)
 
         if #grid_items >= 6 then
@@ -701,12 +727,17 @@ core.register_node('x_farming:stove_active', {
         stop_stove_sound(pos)
     end,
     after_dig_node = function(pos, oldnode, oldmetadata, digger)
-        if not oldmetadata.fields.grid_matrix then
+        if not oldmetadata.fields or not oldmetadata.fields.grid_matrix then
             return
         end
 
         local objs = core.get_objects_inside_radius(pos, 0.7)
-        local grid_matrix = core.deserialize(oldmetadata.fields.grid_matrix, true)
+        local grid_matrix = safe_deserialize(oldmetadata.fields.grid_matrix)
+
+        if not grid_matrix then
+            return
+        end
+
         local grid_items = get_grid_matrix_items(grid_matrix)
 
         -- remove entitites

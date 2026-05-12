@@ -419,7 +419,7 @@ local function get_rename_formspec(meta)
 	local tag = meta:get_string("name") or ""
 	local form = {
 		"size[8,4]",
-		"field[0.5,1;7.5,0;name;" .. minetest.formspec_escape("Enter name:") .. ";" .. tag .. "]",
+		"field[0.5,1;7.5,0;name;" .. minetest.formspec_escape("Enter name:") .. ";" .. minetest.formspec_escape(tag) .. "]",
 		"button_exit[2.5,3.5;3,1;set_name;" .. minetest.formspec_escape("Set Name") .. "]"
 	}
 	return table.concat(form, "")

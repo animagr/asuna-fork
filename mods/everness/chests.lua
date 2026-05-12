@@ -216,13 +216,15 @@ function Everness.chest.register_chest(prefixed_name, d)
             local itemstack = player:get_wielded_item()
             local key_meta = itemstack:get_meta()
 
-            if itemstack:get_metadata() == '' then
+            local key_oldmeta = itemstack:get_meta():get_string('')
+
+            if key_oldmeta == '' then
                 return
             end
 
             if key_meta:get_string('secret') == '' then
-                key_meta:set_string('secret', core.parse_json(itemstack:get_metadata()).secret)
-                itemstack:set_metadata('')
+                key_meta:set_string('secret', core.parse_json(key_oldmeta).secret)
+                itemstack:get_meta():set_string('', '')
             end
 
             if secret ~= key_meta:get_string('secret') then

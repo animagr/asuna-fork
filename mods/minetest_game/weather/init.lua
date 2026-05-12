@@ -90,10 +90,10 @@ function weather.get(player)
 	-- Adjusted time in seconds
 	local time = math.floor(minetest.get_gametime() - t_offset)
 
-	nobj_density = nobj_density or minetest.get_perlin(np_density)
-	nobj_thickness = nobj_thickness or minetest.get_perlin(np_thickness)
-	nobj_speedx = nobj_speedx or minetest.get_perlin(np_speedx)
-	nobj_speedz = nobj_speedz or minetest.get_perlin(np_speedz)
+	nobj_density = nobj_density or minetest.get_value_noise(np_density)
+	nobj_thickness = nobj_thickness or minetest.get_value_noise(np_thickness)
+	nobj_speedx = nobj_speedx or minetest.get_value_noise(np_speedx)
+	nobj_speedz = nobj_speedz or minetest.get_value_noise(np_speedz)
 
 	local n_density = nobj_density:get_2d({x = time, y = 0}) -- 0 to 1
 	local n_thickness = nobj_thickness:get_2d({x = time, y = 0}) -- 0 to 1

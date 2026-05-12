@@ -6,6 +6,15 @@ local S = default.get_translator
 local esc = minetest.formspec_escape
 local formspec_size = "size[8,8]"
 
+local function safe_deserialize(data)
+	if not data or data == "" then return end
+	local ok, result = pcall(minetest.deserialize, data, true)
+	if ok then
+		return result
+	end
+	minetest.log("warning", "[default] Failed to deserialize legacy book metadata: " .. tostring(result))
+end
+
 local function formspec_core(tab)
 	if tab == nil then tab = 1 else tab = tostring(tab) end
 	return "tabheader[0,0;book_header;" ..
@@ -57,7 +66,7 @@ local function book_on_use(itemstack, user)
 	local page, page_max, lines, string = 1, 1, {}, ""
 
 	-- Backwards compatibility
-	local old_data = minetest.deserialize(itemstack:get_meta():get_string(""), true)
+	local old_data = safe_deserialize(itemstack:get_meta():get_string(""))
 	if old_data then
 		meta:from_table({ fields = old_data })
 	end

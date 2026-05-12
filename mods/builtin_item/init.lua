@@ -202,7 +202,6 @@ core.register_entity(":__builtin:item", {
 		self.object:set_properties({
 			is_visible = true,
 			visual = "wielditem",
-			textures = {itemname},
 			visual_size = {x = size + bias, y = size + bias, z = size + bias},
 			collisionbox = {-size, -col_height, -size, size, col_height, size},
 			selectionbox = {-size, -size, -size, size, size, size},

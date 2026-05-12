@@ -118,8 +118,8 @@ function animalia.move_head(self, tyaw, pitch)
 	local yaw = self.object:get_yaw()
 	local pitch_offset = data.pitch_correction or 0
 	local bone = data.bone or "Head.CTRL"
-	local _, rot = self.object:get_bone_position(bone)
-	if not rot then return end
+	local override = self.object:get_bone_override(bone)
+	local rot = override and override.rotation and override.rotation.vec or vector.zero()
 	local n_yaw = (tyaw ~= yaw and diff(tyaw, yaw) / 2) or 0
 	if abs(deg(n_yaw)) > 45 then n_yaw = 0 end
 	local dir = yaw2dir(n_yaw)
@@ -127,16 +127,25 @@ function animalia.move_head(self, tyaw, pitch)
 	local n_pitch = (sqrt(dir.x^2 + dir.y^2) / dir.z)
 	if abs(deg(n_pitch)) > 45 then n_pitch = 0 end
 	if self.dtime then
-		local yaw_w = lerp_step(rad(rot.z), tyaw, self.dtime, 3)
-		n_yaw = interp_angle(rad(rot.z), n_yaw, yaw_w)
+		local yaw_w = lerp_step(rot.z, tyaw, self.dtime, 3)
+		n_yaw = interp_angle(rot.z, n_yaw, yaw_w)
 		local rad_offset = rad(pitch_offset)
-		local pitch_w = lerp_step(rad(rot.x), n_pitch + rad_offset, self.dtime, 3)
-		n_pitch = interp_angle(rad(rot.x), n_pitch + rad_offset, pitch_w)
+		local pitch_w = lerp_step(rot.x, n_pitch + rad_offset, self.dtime, 3)
+		n_pitch = interp_angle(rot.x, n_pitch + rad_offset, pitch_w)
 	end
 	local pitch_max = pitch_offset + 45
 	local pitch_min = pitch_offset - 45
-	self.object:set_bone_position(bone, data.offset,
-		{x = clamp(deg(n_pitch), pitch_min, pitch_max), y = 0, z = clamp(deg(n_yaw), -45, 45)})
+	self.object:set_bone_override(bone, {
+		position = {vec = data.offset or vector.zero(), absolute = true},
+		rotation = {
+			vec = {
+				x = rad(clamp(deg(n_pitch), pitch_min, pitch_max)),
+				y = 0,
+				z = rad(clamp(deg(n_yaw), -45, 45)),
+			},
+			absolute = true,
+		},
+	})
 end
 
 function animalia.head_tracking(self)

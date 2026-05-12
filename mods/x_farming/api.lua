@@ -18,6 +18,22 @@
 
 local S = core.get_translator(core.get_current_modname())
 
+local function safe_deserialize(data, fallback)
+    if not data or data == '' then
+        return fallback
+    end
+
+    local ok, result = pcall(core.deserialize, data, true)
+
+    if ok then
+        return result or fallback
+    end
+
+    core.log('warning', '[x_farming] Failed to deserialize metadata: ' .. tostring(result))
+
+    return fallback
+end
+
 -- main class
 x_farming = {
     hunger_ng = core.get_modpath('hunger_ng'),
@@ -1293,7 +1309,7 @@ function x_farming.register_crate(name, def)
     _def.after_place_node = function(pos, placer, itemstack, pointed_thing)
         local meta = core.get_meta(pos)
         local meta_st = itemstack:get_meta()
-        local crate_inv = core.deserialize(meta_st:get_string('crate_inv'), true)
+        local crate_inv = safe_deserialize(meta_st:get_string('crate_inv'))
         local inv = meta:get_inventory()
 
         if crate_inv then
@@ -1578,7 +1594,7 @@ function x_farming.register_bag(name, def)
     _def.after_place_node = function(pos, placer, itemstack, pointed_thing)
         local meta = core.get_meta(pos)
         local meta_st = itemstack:get_meta()
-        local bag_inv = core.deserialize(meta_st:get_string('bag_inv'), true)
+        local bag_inv = safe_deserialize(meta_st:get_string('bag_inv'))
         local inv = meta:get_inventory()
 
         if bag_inv then

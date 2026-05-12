@@ -1427,10 +1427,16 @@ if not core.get_modpath('farming') then
         chance = 4,
         action = function(pos, node)
             local n_def = core.registered_nodes[node.name] or nil
+
+            if not n_def or not n_def.soil then
+                return
+            end
+
             local wet = n_def.soil.wet or nil
             local base = n_def.soil.base or nil
             local dry = n_def.soil.dry or nil
-            if not n_def or not n_def.soil or not wet or not base or not dry then
+
+            if not wet or not base or not dry then
                 return
             end
 

@@ -243,4 +243,4 @@ if core.get_modpath("lucky_block") then
 	dofile(path .. "/lucky_block.lua")
 end
 
-print ("[MOD] Baked Clay loaded")
+core.log("action", "[MOD] Baked Clay loaded")

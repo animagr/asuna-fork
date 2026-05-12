@@ -654,4 +654,4 @@ if core.get_modpath("lucky_block") then
 end
 
 
-print ("[MOD] Bonemeal loaded")
+core.log("action", "[MOD] Bonemeal loaded")

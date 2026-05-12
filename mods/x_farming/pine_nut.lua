@@ -28,7 +28,7 @@ if core.get_modpath("default") then
     core.register_alias("stairs:stair_pine_nut_wood","stairs:stair_pine_wood")
     core.register_alias("stairs:stair_inner_pine_nut_wood","stairs:stair_inner_pine_wood")
     core.register_alias("stairs:stair_outer_pine_nut_wood","stairs:stair_outer_pine_wood")
-    core.register_alias("stairs:slab_pine_nut_wood","slab:stair_pine_wood")
+    core.register_alias("stairs:slab_pine_nut_wood","stairs:slab_pine_wood")
 else
     -- trunk
     core.register_node('x_farming:pine_nut_tree', {

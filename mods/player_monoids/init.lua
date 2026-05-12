@@ -115,4 +115,3 @@ function mon_meta:value(player)
 end
 
 dofile(modpath .. "standard_monoids.lua")
-dofile(modpath .. "test.lua")

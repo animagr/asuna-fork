@@ -132,7 +132,15 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
 	end
 	if #poslist == 0 then return end
 
-	local noise = minetest.get_perlin(10115, 4, 0.5, 1)
+	local noise = minetest.get_value_noise({
+		offset = 0,
+		scale = 1,
+		seed = 10115,
+		octaves = 4,
+		persistence = 0.5,
+		spread = {x = 1, y = 1, z = 1},
+		lacunarity = 2,
+	})
 	local rand = PcgRandom(noise3d_integer(noise, poslist[1]))
 
 	local candidates = {}

@@ -15,16 +15,6 @@ local hudbars_mod = minetest.get_modpath("hudbars")
 local unified_inventory_mod = minetest.get_modpath("unified_inventory")
 local stamina_mod = minetest.get_modpath("stamina")
 
--- Legacy support: Name of the HUD type field for 'hud_add'.
-local hud_type_field_name
-if minetest.features.hud_def_type_field then
-	-- engine version 5.9.0 and later
-	hud_type_field_name = "type"
-else
-	-- All engine versions before 5.9.0
-	hud_type_field_name = "hud_elem_type"
-end
-
 -- Disable mod if Unified Inventory item names feature is enabled
 if unified_inventory_mod and minetest.settings:get_bool("unified_inventory_item_names") ~= false then
 	minetest.log("action", "[show_wielded_item] Unified Inventory's item names feature was detected! Running show_wielded_item is pointless now, so it won't do anything")
@@ -62,7 +52,7 @@ local function set_hud(player)
 	end
 
 	huds[player_name] = player:hud_add({
-		[hud_type_field_name] = "text",
+		type = "text",
 		position = {x=0.5, y=1},
 		offset = off,
 		alignment = {x=0, y=0},

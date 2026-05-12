@@ -3,6 +3,16 @@ local org_file = world_path .. "/beds_spawns"
 local file = world_path .. "/beds_spawns"
 local bkwd = false
 
+local function safe_deserialize(data, fallback)
+	if not data or data == "" then return fallback end
+	local ok, result = pcall(minetest.deserialize, data, true)
+	if ok then
+		return result or fallback
+	end
+	minetest.log("warning", "[beds] Failed to deserialize legacy spawn file: " .. tostring(result))
+	return fallback
+end
+
 -- check for PA's beds mod spawns
 local cf = io.open(world_path .. "/beds_player_spawns", "r")
 if cf ~= nil then
@@ -27,7 +37,7 @@ function beds.read_spawns()
 		until input:read(0) == nil
 		io.close(input)
 	elseif input and bkwd then
-		beds.spawn = minetest.deserialize(input:read("*all"), true)
+		beds.spawn = safe_deserialize(input:read("*all"), beds.spawn or {})
 		input:close()
 		beds.save_spawns()
 		os.rename(file, file .. ".backup")

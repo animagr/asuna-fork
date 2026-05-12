@@ -169,7 +169,7 @@ function default.chest.register_chest(prefixed_name, d)
 
 			if key_meta:get_string("secret") == "" then
 				key_meta:set_string("secret", minetest.parse_json(itemstack:get_meta():get_string("")).secret)
-				itemstack:set_metadata("")
+				itemstack:get_meta():set_string("", "")
 			end
 
 			if secret ~= key_meta:get_string("secret") then

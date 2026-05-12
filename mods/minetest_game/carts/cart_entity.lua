@@ -41,7 +41,7 @@ function cart_entity:on_activate(staticdata, dtime_s)
 	if string.sub(staticdata, 1, string.len("return")) ~= "return" then
 		return
 	end
-	local data = minetest.deserialize(staticdata)
+	local data = minetest.deserialize(staticdata, true)
 	if type(data) ~= "table" then
 		return
 	end

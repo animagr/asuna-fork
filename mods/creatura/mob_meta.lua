@@ -65,6 +65,15 @@ local function is_value_in_table(tbl, val)
 	return false
 end
 
+local function safe_deserialize(data)
+	if not data or data == "" then return end
+	local ok, result = pcall(minetest.deserialize, data, true)
+	if ok then
+		return result
+	end
+	minetest.log("warning", "[creatura] Failed to deserialize entity staticdata: " .. tostring(result))
+end
+
 -------------------------
 -- Physics/Vitals Tick --
 -------------------------
@@ -803,7 +812,7 @@ function mob:activate(staticdata, dtime)
 	end
 
 	-- Staticdata
-	local data = minetest.deserialize(staticdata, true)
+	local data = safe_deserialize(staticdata)
 
 	if data then
 		local tp

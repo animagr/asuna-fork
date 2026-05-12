@@ -466,8 +466,8 @@ effervescence.register_player_particles({
   check = function(self, player)
     local velocity = player:get_velocity()
     if math.abs(velocity.x) > 0.025 or math.abs(velocity.z) > 0.025 then
-      local below = core.get_node(player:get_pos():offset(0,-0.1,0)).name
-      return walking_nodes[below]
+      local below = core.get_node_or_nil(player:get_pos():offset(0,-0.1,0))
+      return below and below.name ~= "ignore" and walking_nodes[below.name]
     end
   end,
   applies_to = function(self, node, def)

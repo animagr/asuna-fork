@@ -8,6 +8,15 @@ local random = math.random
 
 local form_obj = {}
 
+local function safe_deserialize(data)
+	if not data or data == "" then return end
+	local ok, result = pcall(minetest.deserialize, data, true)
+	if ok then
+		return result
+	end
+	minetest.log("warning", "[animalia] Failed to deserialize horse inventory: " .. tostring(result))
+end
+
 local function create_horse_inventory(self)
 	if not self.owner then return end
 	local inv_name = "animalia:horse_" .. self.owner
@@ -47,7 +56,10 @@ local function get_form(self, player_name)
 	local inv = create_horse_inventory(self)
 	if inv
 	and self._inventory then
-		inv:set_list("main", minetest.deserialize(self._inventory))
+		local stored = safe_deserialize(self._inventory)
+		if stored then
+			inv:set_list("main", stored)
+		end
 	end
 
 	local frame_range = self.animations["stand"].range
@@ -88,7 +100,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		if fields.quit or fields.key_enter then
 			form_obj[name] = nil
 			serialize_horse_inventory(ent)
-			minetest.remove_detached_inventory("animlaia:horse_" .. name)
+			minetest.remove_detached_inventory("animalia:horse_" .. name)
 		end
 	end
 

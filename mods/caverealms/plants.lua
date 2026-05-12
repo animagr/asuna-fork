@@ -106,7 +106,7 @@ minetest.register_node("caverealms:mushroom_gills", {
 -- grow trees
 local add_tree = function (pos, ofx, ofy, ofz, schem)
 	if not schem then
-		print ("Schematic not found")
+		minetest.log("warning", "[caverealms] Schematic not found")
 		return
 	end
 	minetest.swap_node(pos, {name = "air"})

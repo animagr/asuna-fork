@@ -7,6 +7,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.1.8
+
+### Fixed
+
+- Replace remaining active `print()` calls in production code with `minetest.log()` / `core.log()`
+- Add safe mode to remaining `minetest.deserialize()` calls in Animalia libri, Animalia horse inventory, and Minetest Game carts
+- Harden Asuna Awards dropped-item lava check against unloaded/unknown nodes
+- Harden Effervescence walking particle node lookup against unloaded areas
+- Fix Animalia horse detached inventory cleanup typo (`animlaia` -> `animalia`) and harden horse inventory deserialization
+- Fix Animalia Mobs Redo saddle conversion alias to point at `animalia:saddle`
+- Escape player-controlled Animalia nametag formspec text
+- Restore Everness sneak-pickup item pickup callbacks and add safer dropped-item entity guards
+- Fix X Farming standalone soil ABM nil dereference when field nodes lack `soil` metadata
+- Fix Stamina content pack gating to respect `asuna.content.nutrition.enabled`
+- Cache Stamina's optional `pova` integration API locally to avoid undefined-global warnings
+- Fix Worldgate mapgen gating so both `worldgate.mapgen` and Asuna Wayfarer settings can disable generation
+- Fix Animalia mob spawning gate to avoid overwriting the global `spawn_mobs` setting
+- Remove duplicate Animalia API load during startup
+- Remove packaged Player Monoids test command loading
+- Fix X Farming pine nut slab alias target (`slab:stair_pine_wood` -> `stairs:slab_pine_wood`)
+- Fix Ethereal green dirt compatibility alias typo (`default;dirt_with_grass` -> `default:dirt_with_grass`)
+- Add `asuna_core` optional dependencies to bundled mods that read Asuna content/settings globals
+- Wrap remaining reviewed deserialize calls in `pcall()` hardening across Animalia, Creatura, X Farming, 3D Armor, Minetest Game beds, and Minetest Game default
+- Modernize deprecated Luanti API usage across reviewed mods:
+  - Replace deprecated formspec `current_name` inventory locations with `context`
+  - Replace deprecated HUD `hud_elem_type` fields with `type`
+  - Replace deprecated `get_perlin()` calls with `get_value_noise()`
+  - Replace deprecated ItemStack metadata accessors with `get_meta()` string access
+  - Migrate Animalia head tracking from bone position APIs to bone overrides
+  - Replace deprecated dropped-item `wielditem` texture assignment and boolean node `use_texture_alpha` values
+  - Remove old `nodeupdate` and player velocity compatibility fallbacks
+
 ## v1.1.7
 
 ### Fixed

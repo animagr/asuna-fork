@@ -19,9 +19,25 @@
 local S = core.get_translator(core.get_current_modname())
 local rand = PcgRandom(tonumber(tostring(os.time()):reverse():sub(1, 9)))
 
+local function safe_deserialize(data, fallback)
+    if not data or data == '' then
+        return fallback
+    end
+
+    local ok, result = pcall(core.deserialize, data, true)
+
+    if ok then
+        return result or fallback
+    end
+
+    core.log('warning', '[x_farming] Failed to deserialize bee metadata: ' .. tostring(result))
+
+    return fallback
+end
+
 local function update_hive_infotext(pos)
     local meta = core.get_meta(pos)
-    local data = core.deserialize(meta:get_string('x_farming'), true)
+    local data = safe_deserialize(meta:get_string('x_farming'))
 
     if data then
         local text = 'Occupancy: ' .. data.occupancy .. ' / 3\n'
@@ -49,7 +65,7 @@ end
 
 local function update_bee_infotext(pos)
     local meta = core.get_meta(pos)
-    local data = core.deserialize(meta:get_string('x_farming'), true)
+    local data = safe_deserialize(meta:get_string('x_farming'))
 
     if data then
         meta:set_string('infotext', 'Hive position: ' .. data.pos_hive)
@@ -86,7 +102,7 @@ local function is_valid_hive_position(pos, params)
     end
 
     local meta_hive = core.get_meta(pos)
-    local data_hive = core.deserialize(meta_hive:get_string('x_farming'), true)
+    local data_hive = safe_deserialize(meta_hive:get_string('x_farming'))
 
     if not data_hive then
         return false
@@ -169,8 +185,12 @@ core.register_node('x_farming:bee_hive', {
     on_timer = function(pos, elapsed)
         -- Hive data
         local meta_hive = core.get_meta(pos)
-        local data_hive = core.deserialize(meta_hive:get_string('x_farming'), true)
+        local data_hive = safe_deserialize(meta_hive:get_string('x_farming'))
         local node = core.get_node(pos)
+
+        if not data_hive or not data_hive.occupancy then
+            return
+        end
 
         if data_hive.occupancy == 0 then
             return
@@ -245,7 +265,7 @@ core.register_node('x_farming:bee_hive', {
     end,
     on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
         local meta = core.get_meta(pos)
-        local data = core.deserialize(meta:get_string('x_farming'), true)
+        local data = safe_deserialize(meta:get_string('x_farming'))
 
         if not data then
             return itemstack
@@ -273,7 +293,7 @@ core.register_node('x_farming:bee_hive', {
         return itemstack
     end,
     after_dig_node = function(pos, oldnode, oldmetadata, digger)
-        local data = core.deserialize(oldmetadata.fields.x_farming, true)
+        local data = safe_deserialize(oldmetadata.fields and oldmetadata.fields.x_farming, {})
         local positions = core.find_nodes_in_area_under_air(
             vector.add(pos, 5),
             vector.subtract(pos, 5),
@@ -340,7 +360,11 @@ core.register_node('x_farming:bee_hive_saturated', {
         local stack_name = itemstack:get_name()
         local stack = itemstack
         local meta = core.get_meta(pos)
-        local data = core.deserialize(meta:get_string('x_farming'), true)
+        local data = safe_deserialize(meta:get_string('x_farming'))
+
+        if not data then
+            return stack
+        end
 
         if stack_name == 'vessels:glass_bottle' or stack_name == 'x_farming:glass_bottle' then
             -- Fill bottle with honey and return it
@@ -395,7 +419,7 @@ core.register_node('x_farming:bee_hive_saturated', {
         return stack
     end,
     after_dig_node = function(pos, oldnode, oldmetadata, digger)
-        local data = core.deserialize(oldmetadata.fields.x_farming, true)
+        local data = safe_deserialize(oldmetadata.fields and oldmetadata.fields.x_farming, {})
         local positions = core.find_nodes_in_area_under_air(
             vector.add(pos, 5),
             vector.subtract(pos, 5),
@@ -483,7 +507,7 @@ core.register_node('x_farming:bee', {
     on_timer = function(pos, elapsed)
         -- Bee data
         local meta_bee = core.get_meta(pos)
-        local data_bee = core.deserialize(meta_bee:get_string('x_farming'), true) or {}
+        local data_bee = safe_deserialize(meta_bee:get_string('x_farming'), {})
         local pos_hive = get_valid_hive_position(data_bee.pos_hive and vector.from_string(data_bee.pos_hive) or nil, pos)
 
         if not pos_hive then
@@ -500,8 +524,14 @@ core.register_node('x_farming:bee', {
         end
 
         local meta_hive = core.get_meta(pos_hive)
-        local data_hive = core.deserialize(meta_hive:get_string('x_farming'), true)
+        local data_hive = safe_deserialize(meta_hive:get_string('x_farming'))
         local node_hive = core.get_node(pos_hive)
+
+        if not data_hive or not data_hive.occupancy then
+            core.remove_node(pos)
+            return
+        end
+        data_hive.saturation = data_hive.saturation or 0
 
         -- Bee go home
         data_hive.occupancy = data_hive.occupancy + 1

@@ -39,7 +39,7 @@ core.register_alias("ethereal:obsidian_brick", "default:obsidianbrick")
 core.register_alias("ethereal:crystal_topped_dirt", "ethereal:crystal_dirt")
 core.register_alias("ethereal:fiery_dirt_top", "ethereal:fiery_dirt")
 core.register_alias("ethereal:gray_dirt_top", "ethereal:gray_dirt")
-core.register_alias("ethereal:green_dirt_top", "default;dirt_with_grass")
+core.register_alias("ethereal:green_dirt_top", "default:dirt_with_grass")
 
 core.register_alias("ethereal:tree_sapling", "default:sapling")
 core.register_alias("ethereal:jungle_tree_sapling", "default:junglesapling")

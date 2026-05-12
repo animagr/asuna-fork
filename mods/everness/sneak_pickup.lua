@@ -42,64 +42,73 @@ local function pick_dropped_items(player)
 
     -- sort with the oldest objects first
     table.sort(objects_to_collect, function(a, b)
-        return b:get_luaentity().age < a:get_luaentity().age
+        local a_entity = a:get_luaentity()
+        local b_entity = b:get_luaentity()
+
+        return a_entity and b_entity and b_entity.age < a_entity.age
     end)
 
     for _, object in ipairs(objects_to_collect) do
         local luaentity = object:get_luaentity()
-        local itemstack = ItemStack(luaentity.itemstring)
 
-        if not luaentity._being_collected then
+        if luaentity and not luaentity._being_collected then
+            local itemstack = ItemStack(luaentity.itemstring)
+
             -- Invoke global on_item_pickup callbacks.
-            -- for _, callback in ipairs(core.registered_on_item_pickups) do
-            --     local result = callback(itemstack, player, { type = 'object', ref = object })
+            for _, callback in ipairs(core.registered_on_item_pickups or {}) do
+                local result = callback(itemstack, player, { type = 'object', ref = object })
 
-            --     if result then
-            --         itemstack = ItemStack(result)
-            --     end
-            -- end
-            local leftover_stack = inv:add_item('main', itemstack)
-            local stack_count_prev = itemstack:get_count()
-            local stack_count_leftover = leftover_stack:get_count()
+                if result then
+                    itemstack = ItemStack(result)
+                end
+            end
 
-            if leftover_stack and stack_count_prev ~= stack_count_leftover then
-                -- Collect item / Item fits in the inventory
+            if not itemstack:is_empty() then
                 local pos_obj = object:get_pos()
 
-                if stack_count_leftover ~= 0 then
-                    core.spawn_item(pos_obj, leftover_stack:to_string())
-                end
+                if pos_obj then
+                    local leftover_stack = inv:add_item('main', itemstack)
+                    local stack_count_prev = itemstack:get_count()
+                    local stack_count_leftover = leftover_stack:get_count()
 
-                luaentity._being_collected = true
-                object:set_acceleration({ x = 0, y = 0, z = 0 })
-                object:set_velocity({ x = 0, y = 0, z = 0 })
-                luaentity.physical_state = false
-                luaentity.object:set_properties({
-                    physical = false,
-                    -- prevent picking up items while they are moving to the player
-                    -- since the items are in the players inventory already this would
-                    -- duplicate the itemstack
-                    selectionbox = { 0, 0, 0, 0, 0, 0 },
-                    collisionbox = { 0, 0, 0, 0, 0, 0 }
-                })
+                    if leftover_stack and stack_count_prev ~= stack_count_leftover then
+                        -- Collect item / Item fits in the inventory
+                        if stack_count_leftover ~= 0 then
+                            core.spawn_item(pos_obj, leftover_stack:to_string())
+                        end
 
-                object:move_to(vector.new(
-                    (pos.x - pos_obj.x) + pos_obj.x,
-                    (pos.y - pos_obj.y) + pos_obj.y + 1.25,
-                    (pos.z - pos_obj.z) + pos_obj.z
-                ))
+                        luaentity._being_collected = true
+                        object:set_acceleration({ x = 0, y = 0, z = 0 })
+                        object:set_velocity({ x = 0, y = 0, z = 0 })
+                        luaentity.physical_state = false
+                        luaentity.object:set_properties({
+                            physical = false,
+                            -- prevent picking up items while they are moving to the player
+                            -- since the items are in the players inventory already this would
+                            -- duplicate the itemstack
+                            selectionbox = { 0, 0, 0, 0, 0, 0 },
+                            collisionbox = { 0, 0, 0, 0, 0, 0 }
+                        })
 
-                core.sound_play('everness_item_drop_pickup', {
-                    pos = pos,
-                    max_hear_distance = 16,
-                    gain = 0.4,
-                })
+                        object:move_to(vector.new(
+                            (pos.x - pos_obj.x) + pos_obj.x,
+                            (pos.y - pos_obj.y) + pos_obj.y + 1.25,
+                            (pos.z - pos_obj.z) + pos_obj.z
+                        ))
 
-                core.after(0, function(v_object)
-                    if v_object and v_object:get_luaentity() then
-                        v_object:remove()
+                        core.sound_play('everness_item_drop_pickup', {
+                            pos = pos,
+                            max_hear_distance = 16,
+                            gain = 0.4,
+                        })
+
+                        core.after(0, function(v_object)
+                            if v_object and v_object:get_luaentity() then
+                                v_object:remove()
+                            end
+                        end, object)
                     end
-                end, object)
+                end
             end
         end
     end

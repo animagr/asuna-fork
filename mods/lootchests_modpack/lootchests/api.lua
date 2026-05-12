@@ -95,9 +95,9 @@ lootchests.register_lootchest = function(def)
                 default.gui_bg ..
                 default.gui_bg_img ..
                 default.gui_slots ..
-                "list[current_name;main;0,0;8,5;]" ..
+                "list[context;main;0,0;8,5;]" ..
                 "list[current_player;main;0,5;8,4;]" ..
-                "listring[current_name;main]" ..
+                "listring[context;main]" ..
                 "listring[current_player;main]"
             )
             meta:set_string("infotext", def.description)

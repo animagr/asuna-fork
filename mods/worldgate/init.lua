@@ -26,7 +26,7 @@ worldgate = {
 
 -- Disable mapgen via Asuna settings if set
 if minetest.get_modpath("asuna_core") then
-  worldgate.settings.mapgen = minetest.settings:get_bool("asuna.content.wayfarer.worldgate",true)
+  worldgate.settings.mapgen = worldgate.settings.mapgen and asuna.content.wayfarer.worldgate
 end
 
 --
