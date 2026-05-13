@@ -228,7 +228,7 @@ minetest.register_decoration({
     name = 'everness:crystal_forest_sparkling_crystal_grass',
     deco_type = 'simple',
     place_on = { 'everness:dirt_with_crystal_grass' },
-    biomes = { 'everness_crystal_forest' },
+    biomes = { 'everness:crystal_forest' },
     sidelen = 16,
     fill_ratio = 0.4,
     y_min = 2,

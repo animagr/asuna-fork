@@ -7,13 +7,7 @@ end
 
 -- Physics override management mods (shadow the global variable)
 local player_monoids = core.get_modpath("player_monoids") and player_monoids
-local pova           = core.get_modpath("pova")           and pova
-
-if player_monoids and not player_monoids.speed.checkout_branch then
-	-- This function exists since 2025-05-17
-	core.log("warning", "[beds] player_monoids is too old, thus not supported.")
-	player_monoids = nil
-end
+local pova           = core.get_modpath("pova")           and rawget(_G, "pova")
 
 -- support for MT game translation.
 local S = beds.get_translator
@@ -71,10 +65,14 @@ local function set_physics_override(player, put_to_bed)
 		if player_monoids then
 			for k, v in pairs(OVERRIDES) do
 				local monoid = player_monoids[k]
-				pdata["monoid_branch_" .. k] = monoid:get_active_branch(player)
-				-- Change the "context" of the physics overrides
-				local branch = monoid:checkout_branch(player, IDENTIFIER)
-				branch:add_change(player, v)
+				if monoid.checkout_branch then
+					pdata["monoid_branch_" .. k] = monoid:get_active_branch(player)
+					-- Change the "context" of the physics overrides
+					local branch = monoid:checkout_branch(player, IDENTIFIER)
+					branch:add_change(player, v)
+				else
+					monoid:add_change(player, v, IDENTIFIER)
+				end
 			end
 		elseif pova then
 			pova.add_override(name, "force", OVERRIDES)
@@ -88,8 +86,12 @@ local function set_physics_override(player, put_to_bed)
 		if player_monoids then
 			for k, _ in pairs(OVERRIDES) do
 				local monoid = player_monoids[k]
-				monoid:checkout_branch(player, pdata["monoid_branch_" .. k])
-				monoid:get_branch(IDENTIFIER):delete(player)
+				if monoid.checkout_branch then
+					monoid:checkout_branch(player, pdata["monoid_branch_" .. k])
+					monoid:get_branch(IDENTIFIER):delete(player)
+				else
+					monoid:del_change(player, IDENTIFIER)
+				end
 			end
 		elseif pova then
 			pova.del_override(name, "force")

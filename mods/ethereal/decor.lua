@@ -113,7 +113,7 @@ register_decoration(ethereal.savanna, {
 register_decoration(ethereal.plains, {
 	place_on = {"default:dry_dirt_with_dry_grass"},
 	fill_ratio = 0.875,
-	biomes = {"mesa_redwood"},
+	biomes = {"mesa"},
 	decoration = {"default:dry_grass_2", "default:dry_grass_3", "default:dry_grass_4",
 			"default:dry_grass_5","default:grass_1"}})
 
@@ -196,7 +196,7 @@ register_decoration(ethereal.caves, {
 register_decoration(ethereal.frost, {
 	place_on = {"ethereal:crystal_dirt"},
 	fill_ratio = 0.02, y_min = 1, y_max = 1750,
-	biomes = {"frost", "frost_floatland"},
+	biomes = {"frost"},
 	decoration = {"ethereal:crystal_spike", "ethereal:crystalgrass"}})
 
 -- red shrub
@@ -218,7 +218,6 @@ register_decoration(ethereal.snowy, {
 -- cactus
 
 register_decoration(1,{
-	name = node,
 	deco_type = "simple",
 	sidelen = 8,
 	place_on = {
@@ -433,7 +432,7 @@ register_decoration(1,asuna.features.crops.onion.inject_decoration({
 			offset = -0.4125,
 			scale = 0.3575,
 			spread = {x = 14, y = 14, z = 14},
-			seed = seed,
+			seed = 11111,
 			octaves = 2,
 			persist = 0.62,
 			lacunarity = 0.675,

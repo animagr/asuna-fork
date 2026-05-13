@@ -7,6 +7,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.1.9
+
+### Added
+
+- Add progressive craft guide recipe discovery, with `asuna.settings.craftguide.discovery.enabled` to restore the full guide if needed
+
+### Fixed
+
+- Clean up low-risk startup warnings across bundled mods, including undeclared globals, duplicate Herbs load logging, invalid light-source values, deprecated mod metadata, invalid media filenames, and bundled Player Monoids bed compatibility
+- Fix Asuna biome helper lists leaking decoration helper functions into Luanti biome checks, causing empty-name biome warnings
+- Filter Plantlife seaweed shore biome generation to avoid invalid `*_shore_shore` and `*_below_shore` biome names
+- Map stale bundled mod biome references to Asuna's registered biome names across Ethereal, Everness, X Farming, Living Jungle, Living Slimes, NaturalBiomes, Herbs, and Minetest Game compatibility mapgen
+- Avoid duplicate bundled stair/slab registrations for bamboo wood, willow wood, and quartz block
+
 ## v1.1.8
 
 ### Fixed

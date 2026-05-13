@@ -320,7 +320,7 @@ Everness:register_decoration({
     },
     sidelen = 16,
     fill_ratio = 0.2,
-    biomes = {"everness_cursed_lands"},
+    biomes = {"everness:cursed_lands"},
     y_max = 31000,
     y_min = 1,
     decoration = {
@@ -337,7 +337,7 @@ Everness:register_decoration({
     },
     sidelen = 16,
     fill_ratio = 0.0075,
-    biomes = {"everness_cursed_lands"},
+    biomes = {"everness:cursed_lands"},
     y_max = 31000,
     y_min = 1,
     decoration = {
@@ -353,7 +353,7 @@ Everness:register_decoration({
     },
     sidelen = 16,
     fill_ratio = 0.0225,
-    biomes = {"everness_cursed_lands"},
+    biomes = {"everness:cursed_lands"},
     y_max = 31000,
     y_min = 1,
     decoration = {
@@ -369,7 +369,7 @@ Everness:register_decoration({
     },
     sidelen = 16,
     fill_ratio = 0.000175,
-    biomes = {"everness_cursed_lands"},
+    biomes = {"everness:cursed_lands"},
     y_max = 31000,
     y_min = 1,
     decoration = {

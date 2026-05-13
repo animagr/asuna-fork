@@ -38,7 +38,7 @@ livingslimes.register_slime("Grass",{
     "dorwinion",
     "prairie",
     "grove",
-    "alpine",
+    "naturalbiomes:alpine",
     "deciduous_forest",
     "japanese_forest",
     "japaneseforest",

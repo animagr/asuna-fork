@@ -1266,6 +1266,14 @@ for biome,def in pairs(asuna.biomes) do
   end
 end
 
+local function add_inject_decoration(target, inject_decoration)
+	setmetatable(target, {
+		__index = {
+			inject_decoration = inject_decoration,
+		},
+	})
+end
+
 -- Inject a Minetest decoration definition with feature group biome data
 for feature,groups in pairs(asuna.features) do
   for group,biomes in pairs(groups) do
@@ -1279,11 +1287,11 @@ for feature,groups in pairs(asuna.features) do
     for node,_ in pairs(surface_nodes) do
       table.insert(surface_array,node)
     end
-    biomes.inject_decoration = function(mtdecorationdef)
+    add_inject_decoration(biomes, function(mtdecorationdef)
       mtdecorationdef.biomes = mtdecorationdef.biomes or only_biomes
       mtdecorationdef.place_on = mtdecorationdef.place_on or surface_array
       return mtdecorationdef
-    end
+    end)
   end
 end
 
@@ -1299,11 +1307,11 @@ for name,group in pairs(asuna.biome_groups) do
   for node,_ in pairs(surface_nodes) do
     table.insert(surface_array,node)
   end
-  group.inject_decoration = function(mtdecorationdef)
+  add_inject_decoration(group, function(mtdecorationdef)
     mtdecorationdef.biomes = mtdecorationdef.biomes or only_biomes
     mtdecorationdef.place_on = mtdecorationdef.place_on or surface_array
     return mtdecorationdef
-  end
+  end)
 end
 
 -- Override biome registration function to prevent duplicate biome registrations

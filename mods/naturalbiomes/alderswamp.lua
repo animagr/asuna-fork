@@ -451,7 +451,7 @@ minetest.register_node("naturalbiomes:alderswamp_reed3", {
 		y_min = 1,
 		place_offset_y = -1,
 		decoration = "default:water_source",
-		biomes = {"alderswamp"},
+		biomes = {"naturalbiomes:alderswamp"},
 		flags = "force_placement",
 	})
 

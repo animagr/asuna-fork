@@ -3,6 +3,17 @@ local S = minetest.get_translator("too_many_stones")
 
 if minetest.get_modpath("stairs") ~= nil then
 
+local function register_stair_and_slab_if_new(subname, ...)
+	if minetest.registered_nodes["stairs:stair_" .. subname]
+			or minetest.registered_nodes["stairs:stair_inner_" .. subname]
+			or minetest.registered_nodes["stairs:stair_outer_" .. subname]
+			or minetest.registered_nodes["stairs:slab_" .. subname] then
+		return
+	end
+
+	stairs.register_stair_and_slab(subname, ...)
+end
+
 -- Blue Agate
 stairs.register_stair_and_slab(
 	"agate_blue",
@@ -2931,7 +2942,7 @@ stairs.register_stair_and_slab(
 	S("Outer Cracked Quartz Brick Stair")
 )
 
-stairs.register_stair_and_slab(
+register_stair_and_slab_if_new(
 	"quartz_block",
 	"too_many_stones:quartz_block",
 	{cracky = 2},

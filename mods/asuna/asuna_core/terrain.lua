@@ -192,6 +192,10 @@ local function register_ocean_floor(name)
   -- Get above and shore biome names
   local above = name:sub(1,-7) -- to trim "_below" from the end of the biome name
   local shore = above .. "_shore"
+  local target_biomes = {name,above}
+  if asuna.biomes[shore] then
+    table.insert(target_biomes,shore)
+  end
 
   -- Get biome
   local biome = asuna.biomes[name]
@@ -202,7 +206,7 @@ local function register_ocean_floor(name)
     place_on = ocean_floor_replace,
     sidelen = 80,
     fill_ratio = 10, -- fill all
-    biomes = {name,shore,above},
+    biomes = target_biomes,
     y_max = 0,
     y_min = 0,
     decoration = "default:stone",
@@ -229,7 +233,7 @@ local function register_ocean_floor(name)
     place_on = ocean_floor_replace,
     sidelen = 80,
     fill_ratio = 10, -- fill all
-    biomes = {name,shore,above},
+    biomes = target_biomes,
     y_max = -1,
     y_min = -10,
     decoration = "default:stone",
@@ -258,7 +262,7 @@ local function register_ocean_floor(name)
       place_on = ocean_floor_replace,
       sidelen = 80,
       fill_ratio = 10, -- fill all
-      biomes = {name,shore,above},
+      biomes = target_biomes,
       y_max = -11,
       y_min = -36,
       decoration = "default:stone",
@@ -295,7 +299,7 @@ local function register_ocean_floor(name)
     y_min = -10,
     place_offset_y = -3,
     fill_ratio = 10,
-    biomes = {name,shore,above},
+    biomes = target_biomes,
     schematic = {
       size = {
         x = 1,

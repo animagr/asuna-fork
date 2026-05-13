@@ -1,4 +1,5 @@
 local modpath = minetest.get_modpath("prairie")
+local mod_bonemeal = minetest.get_modpath("bonemeal")
 
 minetest.register_node("prairie:prairie_dirt_with_grass", {
 	description = "Prairie Dirt With Grass",
@@ -115,7 +116,7 @@ for index,def in ipairs(trees) do
 	-- Add bonemeal integration if supported
 	if mod_bonemeal then
 		bonemeal:add_sapling({
-			{node, def.grow_function, "soil"},
+			{sapling, def.grow_function, "soil"},
 		})
 	end
 end

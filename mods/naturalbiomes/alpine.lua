@@ -479,7 +479,7 @@ minetest.register_node("naturalbiomes:alpine_cowberrybush_leaves", {
 	},
 	sounds = default.node_sound_leaves_defaults(),
 
-	after_place_node = after_place_leaves,
+	after_place_node = default.after_place_leaves,
 })
 
 minetest.register_node("naturalbiomes:alpine_cowberrybush_sapling", {
@@ -779,7 +779,7 @@ minetest.register_node("naturalbiomes:alpine_edelweiss", {
 			octaves = 2,
 			persist = 1.0
 		},
-		biomes = {"alpine"},
+		biomes = {"naturalbiomes:alpine"},
 		y_max = 31000,
 		y_min = 1,
 		decoration = "default:snow",

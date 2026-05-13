@@ -111,6 +111,11 @@ asuna.settings.mod_override_warnings.enabled (Enable mod override warnings) bool
 #    want to use a different mapgen.
 asuna.settings.mapgen_warning.enabled (Enable mapgen warning) bool true
 
+#    When enabled, the crafting guide only shows recipes and usages for items
+#    that players have discovered by carrying them or by discovering all recipe
+#    ingredients. Disable this setting to restore the full always-visible guide.
+asuna.settings.craftguide.discovery.enabled (Enable craft guide discovery) bool true
+
 #    In creative mode players are able to dig all kind of blocks nearly
 #    instantly, and have access to unlimited resources.
 #    Some of the functionality is only available if this setting is present

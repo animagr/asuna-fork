@@ -253,7 +253,7 @@ register_decoration(ethereal.glacier, {
 register_decoration(ethereal.frost, {
 	place_on = "ethereal:crystal_dirt",
 	fill_ratio = 0.01, y_min = 1, y_max = 1750,
-	biomes = {"frost", "frost_floatland"},
+	biomes = {"frost"},
 	schematic = ethereal.frosttrees,
 	spawn_by = "ethereal:crystal_dirt", num_spawn_by = 8})
 
@@ -345,7 +345,6 @@ register_decoration(ethereal.junglee, {
 
 -- special silver sand terrain for grayness which must be placed before trees
 register_decoration(ethereal.grayness, {
-	name = node,
 	deco_type = "simple",
 	sidelen = 16,
 	place_on = {"ethereal:gray_dirt"},
@@ -756,7 +755,7 @@ register_decoration((core.registered_nodes["default:pine_bush"] and 1), {
 	noise_params = {
 		offset = -0.004, scale = 0.01, spread = {x = 100, y = 100, z = 100},
 		seed = 137, octaves = 3, persist = 0.7},
-	biomes = {"taiga", "snowy_grassland"},
+	biomes = {"taiga"},
 	schematic = dpath .. "pine_bush.mts"})
 
 -- default blueberry bush

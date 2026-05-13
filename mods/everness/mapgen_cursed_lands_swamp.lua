@@ -20,6 +20,9 @@
 
 local y_max = Everness.settings.biomes.everness_cursed_lands_swamp.y_max
 local y_min = Everness.settings.biomes.everness_cursed_lands_swamp.y_min
+local asuna_cursed_lands_swamp_biomes = asuna.biomes['everness:cursed_lands_shore']
+    and { 'everness:cursed_lands_shore' }
+    or { 'everness:cursed_lands' }
 
 -- Cursed Lands Swamp
 
@@ -67,7 +70,7 @@ Everness:register_ore({
         octaves = 1,
         persist = 0.0
     },
-    biomes = { 'everness:cursed_lands_swamp' }
+    biomes = asuna_cursed_lands_swamp_biomes
 })
 
 -- Dirt
@@ -89,7 +92,7 @@ Everness:register_ore({
         octaves = 1,
         persist = 0.0
     },
-    biomes = { 'everness:cursed_lands_swamp' }
+    biomes = asuna_cursed_lands_swamp_biomes
 })
 
 -- Mud
@@ -111,7 +114,7 @@ Everness:register_ore({
         octaves = 1,
         persist = 0.0
     },
-    biomes = { 'everness:cursed_lands_swamp' }
+    biomes = asuna_cursed_lands_swamp_biomes
 })
 
 -- Scatter ores
@@ -127,7 +130,7 @@ Everness:register_ore({
     clust_size = 3,
     y_max = y_max,
     y_min = y_min,
-    biomes = { 'everness:cursed_lands_swamp' }
+    biomes = asuna_cursed_lands_swamp_biomes
 })
 
 --
@@ -149,7 +152,7 @@ Everness:register_decoration({
         octaves = 1,
         persist = 0.5
     },
-    biomes = { 'everness:cursed_lands_swamp' },
+    biomes = asuna_cursed_lands_swamp_biomes,
     y_max = y_min,
     y_min = y_min,
     schematic = core.get_modpath('everness') .. '/schematics/everness_dry_tree.mts',
@@ -172,7 +175,7 @@ Everness:register_decoration({
         octaves = 1,
         persist = 0.5
     },
-    biomes = { 'everness:cursed_lands_swamp' },
+    biomes = asuna_cursed_lands_swamp_biomes,
     y_max = y_max,
     y_min = y_max,
     schematic = core.get_modpath('everness') .. '/schematics/everness_marsh_grass.mts',
@@ -193,7 +196,7 @@ local y_dis = -1
 local c_cursed_stone = core.get_content_id('everness:cursed_stone')
 local c_water_source = core.get_content_id('mapgen_water_source')
 
-local biome_id_everness_cursed_lands_swamp = core.get_biome_id('everness:cursed_lands_swamp')
+local biome_id_everness_cursed_lands_swamp = core.get_biome_id(asuna_cursed_lands_swamp_biomes[1])
 
 Everness:add_to_queue_on_generated({
     name = 'everness:cursed_lands_swamp',

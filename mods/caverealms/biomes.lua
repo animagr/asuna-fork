@@ -247,7 +247,7 @@ minetest.register_decoration({
     offset = -0.227,
     scale = 0.385,
     spread = {x = 9, y = 9, z = 9},
-    seed = seed,
+    seed = 4273,
     octaves = 2,
     persist = 0.65,
     lacunarity = 0.69,
@@ -461,7 +461,7 @@ minetest.register_decoration({
     offset = -0.325,
     scale = 0.45,
     spread = {x = 8, y = 8, z = 8},
-    seed = seed,
+    seed = 9041,
     octaves = 2,
     persist = 0.64,
     lacunarity = 0.7,
@@ -529,7 +529,7 @@ abdecor.register_advanced_decoration("caverealms_fire_cave_lava",{
     -- Get stride values and set position
     local ystride = va.ystride
     local zstride = va.zstride
-    local pos = va:index(pos.x,pos.y,pos.z)
+    local vi = va:index(pos.x,pos.y,pos.z)
 
     -- Lava must be enclosed to its sides and below
     for _,adjacent in ipairs({
@@ -539,7 +539,7 @@ abdecor.register_advanced_decoration("caverealms_fire_cave_lava",{
       zstride,
       -zstride,
     }) do
-      if not valid_lava_enclosure[vdata[pos + adjacent]] then
+      if not valid_lava_enclosure[vdata[vi + adjacent]] then
         return -- lava is not properly enclosed
       end
     end

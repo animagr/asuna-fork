@@ -603,7 +603,7 @@ minetest.register_node("naturalbiomes:bushland_blackberry_leaves2", {
 	},
 	sounds = default.node_sound_leaves_defaults(),
 
-	after_place_node = after_place_leaves,
+	after_place_node = default.after_place_leaves,
 })
 
 minetest.register_node("naturalbiomes:bushland_blackberry_leaves", {
@@ -622,7 +622,7 @@ minetest.register_node("naturalbiomes:bushland_blackberry_leaves", {
 	},
 	sounds = default.node_sound_leaves_defaults(),
 
-	after_place_node = after_place_leaves,
+	after_place_node = default.after_place_leaves,
 })
 
 minetest.register_node("naturalbiomes:bushland_blackberrybush_sapling", {
@@ -734,7 +734,7 @@ minetest.register_node("naturalbiomes:bushland_wildrose_leaves2", {
 	},
 	sounds = default.node_sound_leaves_defaults(),
 
-	after_place_node = after_place_leaves,
+	after_place_node = default.after_place_leaves,
 })
 
 minetest.register_node("naturalbiomes:bushland_wildrose_leaves", {
@@ -754,7 +754,7 @@ minetest.register_node("naturalbiomes:bushland_wildrose_leaves", {
 	},
 	sounds = default.node_sound_leaves_defaults(),
 
-	after_place_node = after_place_leaves,
+	after_place_node = default.after_place_leaves,
 })
 
 minetest.register_node("naturalbiomes:bushland_wildrosebush_sapling", {
@@ -865,7 +865,7 @@ minetest.register_node("naturalbiomes:bushland_hazelnut_leaves2", {
 	},
 	sounds = default.node_sound_leaves_defaults(),
 
-	after_place_node = after_place_leaves,
+	after_place_node = default.after_place_leaves,
 })
 
 minetest.register_node("naturalbiomes:bushland_hazelnut_leaves", {
@@ -885,7 +885,7 @@ minetest.register_node("naturalbiomes:bushland_hazelnut_leaves", {
 	},
 	sounds = default.node_sound_leaves_defaults(),
 
-	after_place_node = after_place_leaves,
+	after_place_node = default.after_place_leaves,
 })
 
 minetest.register_node("naturalbiomes:bushland_hazelnutbush_sapling", {
@@ -967,7 +967,7 @@ minetest.register_node("naturalbiomes:bushland_deadbush_leaves", {
 	},
 	sounds = default.node_sound_leaves_defaults(),
 
-	after_place_node = after_place_leaves,
+	after_place_node = default.after_place_leaves,
 })
 
 -- cracked hazelnut

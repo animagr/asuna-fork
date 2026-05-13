@@ -5,6 +5,11 @@ local player_data = {}
 local init_items = {}
 local recipes_cache = {}
 local usages_cache = {}
+local group_specs = {}
+local discovery_enabled = minetest.settings:get_bool(
+	"asuna.settings.craftguide.discovery.enabled", true)
+local PLAYER_PROGRESS_KEY = "mtg_craftguide:progress"
+local discovery_timer = 0
 
 local group_stereotypes = {
 	dye = "dye:white",
@@ -64,6 +69,14 @@ local function extract_groups(str)
 	return nil
 end
 
+local function remember_groups(str)
+	local groups = extract_groups(str)
+	if groups then
+		group_specs[str] = groups
+	end
+	return groups
+end
+
 local function item_has_groups(item_groups, groups)
 	for _, group in ipairs(groups) do
 		if not item_groups[group] then
@@ -100,7 +113,7 @@ local function get_craftable_recipes(output)
 
 	for i = #recipes, 1, -1 do
 		for _, item in pairs(recipes[i].items) do
-			local groups = extract_groups(item)
+			local groups = remember_groups(item)
 			if groups then
 				item = groups_to_item(groups)
 			end
@@ -124,7 +137,7 @@ local function cache_usages(recipe)
 	local added = {}
 	for _, item in pairs(recipe.items) do
 		if not added[item] then
-			local groups = extract_groups(item)
+			local groups = remember_groups(item)
 			if groups then
 				for name, def in pairs(minetest.registered_items) do
 					if not added[name] and show_item(def)
@@ -143,6 +156,163 @@ local function cache_usages(recipe)
 			added[item] = true
 		end
 	end
+end
+
+local function reveal_item(item, progress)
+	item = item and item:match("%S*")
+	if not item then
+		return false
+	end
+	item = minetest.registered_aliases[item] or item
+	local def = item and minetest.registered_items[item]
+	if not def or item == "" or progress[item] then
+		return false
+	end
+
+	progress[item] = true
+	for group_spec, groups in pairs(group_specs) do
+		if item_has_groups(def.groups or {}, groups) then
+			progress[group_spec] = true
+		end
+	end
+	return true
+end
+
+local function get_progress(player, init)
+	if not discovery_enabled then
+		return nil
+	end
+
+	local name = player:get_player_name()
+	local data = player_data[name]
+	if not data then
+		return nil
+	end
+
+	if not data.progress and init ~= false then
+		data.progress = {}
+		local meta = player:get_meta()
+		local stored = meta:get_string(PLAYER_PROGRESS_KEY)
+		if stored ~= "" then
+			local ok, items = pcall(minetest.deserialize, stored, true)
+			if ok and type(items) == "table" then
+				for _, item in ipairs(items) do
+					reveal_item(item, data.progress)
+				end
+			else
+				minetest.log("warning", "[mtg_craftguide] Resetting corrupt discovery data for player "
+					.. name)
+				meta:set_string(PLAYER_PROGRESS_KEY .. "_corrupt", stored)
+				meta:set_string(PLAYER_PROGRESS_KEY, "")
+			end
+		end
+	end
+
+	return data.progress
+end
+
+local function save_progress(player)
+	local progress = get_progress(player, false)
+	if not progress then
+		return
+	end
+
+	local items = {}
+	for item, value in pairs(progress) do
+		if value == true and not group_specs[item] then
+			items[#items + 1] = item
+		end
+	end
+	table.sort(items)
+	player:get_meta():set_string(PLAYER_PROGRESS_KEY, minetest.serialize(items))
+end
+
+local function reveal_inv_list(list, progress)
+	if not list then
+		return false
+	end
+
+	local changed = false
+	for _, stack in ipairs(list) do
+		changed = reveal_item(stack:get_name(), progress) or changed
+	end
+	return changed
+end
+
+local function reveal_inventory(player)
+	local progress = get_progress(player)
+	if not progress then
+		return false
+	end
+
+	local inv = player:get_inventory()
+	local changed = false
+	for _, list in pairs(inv:get_lists()) do
+		changed = reveal_inv_list(list, progress) or changed
+	end
+	return changed
+end
+
+local function recipe_unlocked(recipe, progress, show_all)
+	for _, item in pairs(recipe.items) do
+		if item ~= ""
+		and not (minetest.registered_items[item] or group_specs[item]) then
+			return false
+		end
+		if item ~= "" and not show_all and not progress[item] then
+			return false
+		end
+	end
+	return true
+end
+
+local function filter_recipes(recipes, player)
+	if not recipes or not discovery_enabled then
+		return recipes
+	end
+
+	local show_all = minetest.is_creative_enabled(player:get_player_name())
+	local progress = get_progress(player)
+	if show_all or not progress then
+		return recipes
+	end
+
+	local filtered = {}
+	for _, recipe in ipairs(recipes) do
+		if recipe_unlocked(recipe, progress, show_all) then
+			filtered[#filtered + 1] = recipe
+		end
+	end
+	return #filtered > 0 and filtered or nil
+end
+
+local function item_available(item, player)
+	if not discovery_enabled
+	or minetest.is_creative_enabled(player:get_player_name()) then
+		return true
+	end
+
+	local progress = get_progress(player)
+	return progress
+		and (progress[item]
+			or filter_recipes(recipes_cache[item], player)
+			or filter_recipes(usages_cache[item], player))
+		or false
+end
+
+local function get_available_items(player)
+	if not discovery_enabled
+	or minetest.is_creative_enabled(player:get_player_name()) then
+		return init_items
+	end
+
+	local items = {}
+	for _, item in ipairs(init_items) do
+		if item_available(item, player) then
+			items[#items + 1] = item
+		end
+	end
+	return items
 end
 
 minetest.register_on_mods_loaded(function()
@@ -316,15 +486,22 @@ local function imatch(str, filter)
 	return str:lower():find(filter, 1, true) ~= nil
 end
 
-local function execute_search(data)
+local function reset_selection(data)
+	data.prev_item = nil
+	data.recipes = nil
+	data.rnum = 1
+end
+
+local function execute_search(player, data)
 	local filter = data.filter
+	local source = get_available_items(player)
 	if filter == "" then
-		data.items = init_items
+		data.items = source
 		return
 	end
 	data.items = {}
 
-	for _, item in ipairs(init_items) do
+	for _, item in ipairs(source) do
 		local def = minetest.registered_items[item]
 		local desc = def and minetest.get_translated_string(data.lang_code, def.description)
 
@@ -341,9 +518,8 @@ local function on_receive_fields(player, fields)
 	if fields.clear then
 		data.filter = ""
 		data.pagenum = 1
-		data.prev_item = nil
-		data.recipes = nil
-		data.items = init_items
+		reset_selection(data)
+		data.items = get_available_items(player)
 		return true
 
 	elseif (fields.key_enter_field == "filter" or fields.search)
@@ -356,7 +532,8 @@ local function on_receive_fields(player, fields)
 		end
 		data.filter = new
 		data.pagenum = 1
-		execute_search(data)
+		reset_selection(data)
+		execute_search(player, data)
 		return true
 
 	elseif fields.prev or fields.next then
@@ -398,9 +575,9 @@ local function on_receive_fields(player, fields)
 			data.show_usages = nil
 		end
 		if data.show_usages then
-			data.recipes = usages_cache[item]
+			data.recipes = filter_recipes(usages_cache[item], player)
 		else
-			data.recipes = recipes_cache[item]
+			data.recipes = filter_recipes(recipes_cache[item], player)
 		end
 		data.prev_item = item
 		data.rnum = 1
@@ -418,11 +595,45 @@ minetest.register_on_joinplayer(function(player)
 		items = init_items,
 		lang_code = info.lang_code
 	}
+	reveal_inventory(player)
+	player_data[name].items = get_available_items(player)
 end)
 
 minetest.register_on_leaveplayer(function(player)
+	save_progress(player)
 	local name = player:get_player_name()
 	player_data[name] = nil
+end)
+
+minetest.register_globalstep(function(dtime)
+	if not discovery_enabled then
+		return
+	end
+
+	discovery_timer = discovery_timer + dtime
+	if discovery_timer < 2 then
+		return
+	end
+	discovery_timer = 0
+
+	for _, player in ipairs(minetest.get_connected_players()) do
+		if reveal_inventory(player) then
+			save_progress(player)
+			local data = player_data[player:get_player_name()]
+			if data then
+				execute_search(player, data)
+				if sfinv.get_page(player) == "mtg_craftguide:craftguide" then
+					sfinv.set_player_inventory_formspec(player)
+				end
+			end
+		end
+	end
+end)
+
+minetest.register_on_shutdown(function()
+	for _, player in ipairs(minetest.get_connected_players()) do
+		save_progress(player)
+	end
 end)
 
 sfinv.register_page("mtg_craftguide:craftguide", {

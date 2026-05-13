@@ -113,12 +113,16 @@ minetest.register_alias("along_shore:seaweed_4", "flowers:seaweed_4")
 
 -- Register seaweed decorations
 local warm_shores = {}
-for _,biome in ipairs(asuna.features.ocean.temperate) do
-	table.insert(warm_shores,biome .. "_shore")
+local function add_warm_shore_biomes(biomes)
+	for _,biome in ipairs(biomes) do
+		local shore = biome .. "_shore"
+		if asuna.biomes[shore] then
+			table.insert(warm_shores, shore)
+		end
+	end
 end
-for _,biome in ipairs(asuna.features.ocean.tropical) do
-	table.insert(warm_shores,biome .. "_shore")
-end
+add_warm_shore_biomes(asuna.features.ocean.temperate)
+add_warm_shore_biomes(asuna.features.ocean.tropical)
 
 local seaweed_selector = {
 	minetest.get_content_id("flowers:seaweed"),

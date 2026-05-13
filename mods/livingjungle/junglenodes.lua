@@ -55,7 +55,7 @@ minetest.register_node("livingjungle:leafyjungleground", {
 		place_offset_y = -1,
                 flags = "force_placement",
     fill_ratio = 0.9,
-    biomes = {"default:cold_desert", "default:cold_desert_ocean"},
+    biomes = {"livingjungle:jungle"},
 		y_max = 31000,
 		y_min = 0,
 		decoration = "livingjungle:leafyjungleground"

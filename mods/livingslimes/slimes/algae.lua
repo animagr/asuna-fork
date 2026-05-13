@@ -26,7 +26,6 @@ livingslimes.register_slime("Algae",{
   spawn_cap = 2,
   spawn_biomes = {
     "swamp",
-    "alderswamp",
     "naturalbiomes:alderswamp",
     "marsh",
     "Swampland",

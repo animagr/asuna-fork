@@ -4,26 +4,26 @@
 
 -- Give extenders a lot more range
 if worldgate.settings.superextenders then
+  local function override_extender_range(node, range)
+    local groups = table.copy(minetest.registered_nodes[node].groups)
+    groups.telemosaic_extender = range
+    minetest.override_item(node,{ groups = groups })
+  end
+
   -- Global extender values
   telemosaic.extender_ranges = { 250, 750, 1500 }
 
   -- Tier 1 extenders
   local tier1range = telemosaic.extender_ranges[1]
-  local tier1groups = minetest.registered_nodes["telemosaic:extender_one"].groups
-  tier1groups.telemosaic_extender = tier1range
-  minetest.override_item("telemosaic:extender_one",{ groups = tier1groups })
+  override_extender_range("telemosaic:extender_one", tier1range)
 
   -- Tier 2 extenders
   local tier2range = telemosaic.extender_ranges[2]
-  local tier2groups = minetest.registered_nodes["telemosaic:extender_two"].groups
-  tier2groups.telemosaic_extender = tier2range
-  minetest.override_item("telemosaic:extender_two",{ groups = tier2groups })
+  override_extender_range("telemosaic:extender_two", tier2range)
 
   -- Tier 3 extenders
   local tier3range = telemosaic.extender_ranges[3]
-  local tier3groups = minetest.registered_nodes["telemosaic:extender_three"].groups
-  tier3groups.telemosaic_extender = tier3range
-  minetest.override_item("telemosaic:extender_three",{ groups = tier3groups })
+  override_extender_range("telemosaic:extender_three", tier3range)
 end
 
 -- Implement a longer minimum delay for teleportation to prevent spamming and
@@ -42,7 +42,7 @@ if worldgate.settings.beaconglow then
     "telemosaic:beacon_err_protected",
   }) do
     minetest.override_item(beacon,{
-      light_source = 15,
+      light_source = minetest.LIGHT_MAX,
     })
   end
 end

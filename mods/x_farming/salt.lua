@@ -708,7 +708,7 @@ core.register_on_mods_loaded(function()
     if core.get_modpath('default') then
         table.insert(deco_place_on, 'default:dirt')
         table.insert(deco_place_on, 'default:dry_dirt')
-        table.insert(deco_biomes, 'rainforest_swamp')
+        table.insert(deco_biomes, 'swamp')
         table.insert(deco_biomes, 'savanna_shore')
     end
 

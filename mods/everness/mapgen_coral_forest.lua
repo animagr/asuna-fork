@@ -257,7 +257,7 @@ minetest.register_decoration({
     place_on = { 'everness:dirt_with_coral_grass' },
     sidelen = 16,
     fill_ratio = 0.6,
-    biomes = { 'everness_coral_forest' },
+    biomes = { 'everness:coral_forest' },
     y_max = y_max,
     y_min = y_min,
     decoration = {

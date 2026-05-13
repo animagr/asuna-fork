@@ -146,7 +146,7 @@ Everness:register_decoration({
         octaves = 3,
         persist = 0.66
     },
-    biomes = { 'everness:cursed_lands_under' },
+    biomes = asuna.features.cave.cursed_lands,
     y_max = y_max - 1000,
     y_min = y_min,
     flags = 'all_floors',

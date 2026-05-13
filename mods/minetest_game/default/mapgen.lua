@@ -574,9 +574,9 @@ function default.register_ores()
 			persist = 0.0
 		},
 		-- Only where default:dirt is present as surface material
-		biomes = {"taiga", "snowy_grassland", "grassland", "coniferous_forest",
+		biomes = {"taiga", "grassland", "coniferous_forest",
 				"deciduous_forest", "deciduous_forest_shore", "rainforest",
-				"rainforest_swamp"}
+				"swamp"}
 	})
 
 	-- Gravel
@@ -1918,7 +1918,7 @@ function default.register_decorations()
 			octaves = 1,
 			persist = 0.5
 		},
-		biomes = {"rainforest_swamp"},
+		biomes = {"swamp"},
 		y_max = 0,
 		y_min = -1,
 		schematic = minetest.get_modpath("default") .. "/schematics/jungle_tree.mts",
@@ -2158,7 +2158,7 @@ function default.register_decorations()
 			octaves = 3,
 			persist = 0.7
 		},
-		biomes = {"rainforest_swamp"},
+		biomes = {"swamp"},
 		y_max = 0,
 		y_min = 0,
 		schematic = minetest.get_modpath("default") .. "/schematics/papyrus_on_dirt.mts",
@@ -2223,7 +2223,7 @@ function default.register_decorations()
 			octaves = 3,
 			persist = 0.7,
 		},
-		biomes = {"grassland", "snowy_grassland"},
+		biomes = {"grassland", "taiga"},
 		y_max = 31000,
 		y_min = 1,
 		place_offset_y = 1,
@@ -2268,7 +2268,7 @@ function default.register_decorations()
 			octaves = 3,
 			persist = 0.7,
 		},
-		biomes = {"taiga", "snowy_grassland"},
+		biomes = {"taiga"},
 		y_max = 31000,
 		y_min = 4,
 		schematic = minetest.get_modpath("default") .. "/schematics/pine_bush.mts",

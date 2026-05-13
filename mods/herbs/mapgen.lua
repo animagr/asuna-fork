@@ -50,23 +50,23 @@ function herbs.register_decorations()
     -- Flowers
 	register_flower(7810530, "campanula_blue",
                     {"default:dirt_with_grass"},
-                    {"grassland", "decidious_forest"}, 1)
+                    {"grassland", "deciduous_forest"}, 1)
 
 	register_flower(1770624, "clover_red",
                     {"default:dirt_with_grass","default:dirt_with_coniferous_litter","default:dry_dirt_with_dry_grass"},
-                    {"grassland", "decidious_forest", "coniferous_forest", "savanna"}, 1)
+                    {"grassland", "deciduous_forest", "coniferous_forest", "savanna"}, 1)
 
 	register_flower(7741102, "cornflower",
                     {"default:dirt_with_grass"},
-                    {"grassland", "decidious_forest"}, 1)
+                    {"grassland", "deciduous_forest"}, 1)
 
 	register_flower(440615, "thimble_blue",
                     {"default:dirt_with_grass"},
-                    {"grassland", "decidious_forest_shore"}, 1)
+                    {"grassland", "deciduous_forest_shore"}, 1)
 
 	register_flower(7245998, "thimble_yellow",
                     {"default:dirt_with_grass"},
-                    {"grassland", "decidious_forest_shore", "rainforest"}, 1)
+                    {"grassland", "deciduous_forest_shore", "rainforest"}, 1)
 
 	register_flower(3003485, "houndstooth",
                     {"default:dirt_with_grass"},
@@ -82,15 +82,15 @@ function herbs.register_decorations()
 
 	register_flower(7022389, "ribwort",
                     {"default:dirt_with_grass", "default:dirt", "default:dirt_with_coniferous_litter"},
-                    {"grassland", "decidious_forest", "mountain"}, 50)
+                    {"grassland", "deciduous_forest", "mountain"}, 50)
 
 	register_flower(8517959, "sundew",
                     {"default:dirt_with_grass", "default:dirt", "default:dirt_with_rainforest_litter"},
-                    {"decidious_forest_shore", "rainforest", "rainforest_swamp"}, 1)
+                    {"deciduous_forest_shore", "rainforest", "swamp"}, 1)
 
 	register_flower(2204695, "yarrow_white",
                     {"default:dirt_with_grass", "default:dirt", "default:dirt_with_coniferous_litter"},
-                    {"grassland", "decidious_forest", "mountain"}, 30)
+                    {"grassland", "deciduous_forest", "mountain"}, 30)
 
 	register_flower(2204695, "noble_white",
                     {"default:dirt_with_grass", "default:dirt","default:dirt_with_coniferous_litter"},
@@ -98,7 +98,7 @@ function herbs.register_decorations()
 
 	register_flower(2204695, "iris",
                     {"default:dirt_with_grass", "default:dirt", "default:dirt_with_rainforest_litter"},
-                    {"decidious_forest_shore", "decidious_forest", "rainforest"}, 1)
+                    {"deciduous_forest_shore", "deciduous_forest", "rainforest"}, 1)
 
 	register_flower(2204695, "clover_white",
                     {"default:dirt_with_grass", "default:dirt_with_coniferous_litter"},
@@ -106,7 +106,7 @@ function herbs.register_decorations()
 
     register_flower(7810530, "snapdragon",
                     {"default:dirt_with_grass"},
-                    {"grassland", "decidious_forest", "decidious_forest_shore"}, 1)
+                    {"grassland", "deciduous_forest", "deciduous_forest_shore"}, 1)
 
     -- Mushrooms
     register_mushroom("mushroom_bulbous_green")

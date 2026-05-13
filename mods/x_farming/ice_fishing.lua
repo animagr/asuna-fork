@@ -1068,9 +1068,9 @@ core.register_on_mods_loaded(function()
         table.insert(deco_place_on, 'default:snowblock')
         table.insert(deco_place_on, 'default:snow')
         table.insert(deco_place_on, 'default:dirt_with_snow')
-        table.insert(deco_biomes, 'icesheet')
-        table.insert(deco_biomes, 'snowy_grassland')
-        table.insert(deco_biomes, 'icesheet_ocean')
+        table.insert(deco_biomes, 'glacier')
+        table.insert(deco_biomes, 'frost')
+        table.insert(deco_biomes, 'frost_land')
     end
 
     -- Everness

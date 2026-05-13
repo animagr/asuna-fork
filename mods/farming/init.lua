@@ -25,7 +25,7 @@ farming = {
 	mcl = core.get_modpath("mcl_core"),
 	sounds = {},
 	register_decoration = function(crop,steps,alt_source)
-		biomes = asuna.features.crops[crop]
+		local biomes = asuna.features.crops[crop]
 		if not biomes then
 			return
 		end
@@ -558,7 +558,7 @@ function farming.place_seed(itemstack, placer, pointed_thing, plantname)
 		if placer and itemstack
 		and not farming.is_creative(placer:get_player_name()) then
 
-			local name = itemstack:get_name()
+			local item_name = itemstack:get_name()
 
 			itemstack:take_item()
 
@@ -566,7 +566,7 @@ function farming.place_seed(itemstack, placer, pointed_thing, plantname)
 			if itemstack:get_count() == 0 then
 
 				core.after(0.2, farming.refill_plant,
-						placer, name, placer:get_wield_index())
+						placer, item_name, placer:get_wield_index())
 			end
 		end
 
@@ -613,10 +613,10 @@ function farming.register_plant(name, def)
 
 		on_timer = function(pos, elapsed)
 
-			local def = core.registered_nodes[mname .. ":" .. pname .. "_1"]
+			local plant_def = core.registered_nodes[mname .. ":" .. pname .. "_1"]
 
-			if def then
-				core.set_node(pos, {name = def.name, param2 = def.place_param2})
+			if plant_def then
+				core.set_node(pos, {name = plant_def.name, param2 = plant_def.place_param2})
 			end
 		end,
 

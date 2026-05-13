@@ -16,6 +16,18 @@
 
 local S = core.get_translator(core.get_current_modname())
 
+local function register_stair_and_slab_if_new(subname, ...)
+    if core.registered_nodes['stairs:stair_' .. subname]
+        or core.registered_nodes['stairs:stair_inner_' .. subname]
+        or core.registered_nodes['stairs:stair_outer_' .. subname]
+        or core.registered_nodes['stairs:slab_' .. subname]
+    then
+        return
+    end
+
+    stairs.register_stair_and_slab(subname, ...)
+end
+
 stairs.register_stair_and_slab(
     'coral_desert_stone',
     'everness:coral_desert_stone',
@@ -196,7 +208,7 @@ stairs.register_stair_and_slab(
 
 -- Bamboo Wood
 
-stairs.register_stair_and_slab(
+register_stair_and_slab_if_new(
     'bamboo_wood',
     'everness:bamboo_wood',
     { choppy = 2, oddly_breakable_by_hand = 2, flammable = 2 },
@@ -349,7 +361,7 @@ stairs.register_stair_and_slab(
 
 -- Willow Wood
 
-stairs.register_stair_and_slab(
+register_stair_and_slab_if_new(
     'willow_wood',
     'everness:willow_wood',
     { choppy = 2, oddly_breakable_by_hand = 2, flammable = 2 },
