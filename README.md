@@ -3,7 +3,15 @@ Asuna (Fork)
 
 This is a fork of [Asuna](https://github.com/asuna-mt/asuna) that removes all git submodule dependencies and embeds all mods directly in the repository. This makes the project fully self-contained: no `git submodule update --init` is needed, and all mod sources can be reviewed, patched, and versioned in one place. 
 
-The fork project will first focus on bug fixes and patches, then improvements.
+Fork highlights:
+
+- Major stability pass across bundled mods, including safer deserialization, fewer production `print()` calls, unloaded-node guards, and many nil/crash fixes.
+- Modern Luanti compatibility cleanup, reducing startup warnings from deprecated APIs, mod metadata, HUD/formspec fields, object properties, and invalid media/settings values.
+- Mob and Menagerie fixes, including Animalia spawn gating, Living Slimes spawn errors, Creatura entity `initial_properties` migration, and several Animalia behavior fixes.
+- World generation and exploration fixes for biome references, seaweed shore placement, loot chest placement/randomization, Worldgate mapgen gating, Cloudcraft generation, and structure edge cases.
+- Content-pack polish for Nutrition, Wayfarer, Research, Stamina, Astralcraft, Everness, X Farming, Minetest Game compatibility, and progressive craft guide discovery.
+
+See [CHANGELOG.md](CHANGELOG.md) for the full release history.
 
 Welcome to the vast and vibrant world of Asuna! Journey through a potpourri of natural wonders as you traverse beautiful and breathtaking landscapes. Forests, meadows, jungles, tundras, deserts, swamps, and more await you at every horizon.
 
