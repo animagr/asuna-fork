@@ -78,6 +78,8 @@ end
 -- Physics/Vitals Tick --
 -------------------------
 
+local DEFAULT_STEPHEIGHT = 1.1
+
 local mob = {
 	max_health = 20,
 	max_breath = 30,
@@ -89,7 +91,6 @@ local mob = {
 	tracking_range = 16,
 	despawn_after = nil,
 	max_fall = 3,
-	stepheight = 1.1,
 	hitbox = {
 		width = 0.5,
 		height = 1
@@ -102,6 +103,83 @@ local mob = {
 }
 
 local mob_meta = {__index = mob}
+
+local object_property_keys = {
+	"hp_max",
+	"breath_max",
+	"physical",
+	"collide_with_objects",
+	"collisionbox",
+	"selectionbox",
+	"pointable",
+	"visual",
+	"mesh",
+	"visual_size",
+	"textures",
+	"colors",
+	"spritediv",
+	"initial_sprite_basepos",
+	"is_visible",
+	"makes_footstep_sound",
+	"stepheight",
+	"eye_height",
+	"automatic_rotate",
+	"automatic_face_movement_dir",
+	"backface_culling",
+	"glow",
+	"nametag",
+	"nametag_color",
+	"automatic_face_movement_max_rotation_per_sec",
+	"infotext",
+	"static_save",
+	"wield_item",
+	"zoom_fov",
+	"use_texture_alpha",
+	"shaded",
+	"damage_texture_modifier",
+	"show_on_minimap",
+	"nametag_fontsize",
+	"nametag_scale_z",
+	"step_up_mode",
+}
+
+local function copy_table(tbl)
+	local copy = {}
+	if type(tbl) ~= "table" then
+		return copy
+	end
+	for k, v in pairs(tbl) do
+		copy[k] = v
+	end
+	return copy
+end
+
+function creatura.get_object_properties(def)
+	if type(def) == "string" then
+		def = minetest.registered_entities[def]
+	end
+	if not def then
+		return {}
+	end
+	return def.initial_properties or def
+end
+
+local function normalize_object_properties(def)
+	local initial_properties = copy_table(def.initial_properties)
+
+	for _, key in ipairs(object_property_keys) do
+		if def[key] ~= nil then
+			initial_properties[key] = def[key]
+			def[key] = nil
+		end
+	end
+
+	if type(initial_properties.use_texture_alpha) == "string" then
+		initial_properties.use_texture_alpha = initial_properties.use_texture_alpha ~= "opaque"
+	end
+
+	def.initial_properties = initial_properties
+end
 
 function mob:indicate_damage()
 	self._original_texture_mod = self._original_texture_mod or self.object:get_texture_mod()
@@ -528,8 +606,9 @@ end
 
 function mob:set_scale(x)
 	local def = minetest.registered_entities[self.name]
-	local scale = def.visual_size or {x = 1, y = 1}
-	local box = def.collisionbox
+	local props = creatura.get_object_properties(def)
+	local scale = props.visual_size or {x = 1, y = 1}
+	local box = props.collisionbox
 	local new_box = {}
 	for k, v in ipairs(box) do
 		new_box[k] = v * x
@@ -780,7 +859,10 @@ end
 -- Functions
 
 function mob:activate(staticdata, dtime)
-	self:get_props()
+	local props = self:get_props() or {}
+	self.visual_size = self.visual_size or props.visual_size
+	self.mesh = self.mesh or props.mesh
+	self.stepheight = self.stepheight or props.stepheight
 	self.width = self:get_hitbox()[4] or 0.5
 	self.height = self:get_height() or 1
 	self._tyaw = self.object:get_yaw()
@@ -1221,16 +1303,26 @@ function creatura.register_mob(name, def)
 	local box_height = def.hitbox and def.hitbox.height or 1
 	local hitbox = {-box_width, 0, -box_width, box_width, box_height, box_width}
 
-	def.physical = def.physical or true
-	def.collide_with_objects = def.collide_with_objects or false
+	if def.physical == nil then
+		def.physical = true
+	end
+	if def.collide_with_objects == nil then
+		def.collide_with_objects = false
+	end
 	def.visual = "mesh"
 	def.mesh = def.mesh or (def.meshes and def.meshes[1])
-	def.makes_footstep_sound = def.makes_footstep_sound or false
+	if def.stepheight == nil then
+		def.stepheight = DEFAULT_STEPHEIGHT
+	end
+	if def.makes_footstep_sound == nil then
+		def.makes_footstep_sound = false
+	end
 	if def.static_save ~= false then
 		def.static_save = true
 	end
 	def.collisionbox = def.collisionbox or hitbox
 	def._creatura_mob = true
+	normalize_object_properties(def)
 
 	def.sounds = def.sounds or {}
 

@@ -7,6 +7,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.2.0
+
+### Fixed
+
+- Move Creatura mob object fields into `initial_properties` and normalize entity `use_texture_alpha`, fixing Living Slimes spawn errors and related deprecation warnings
+  
 ## v1.1.9
 
 ### Added

@@ -105,7 +105,7 @@ function creatura.register_spawn_item(name, def)
 		-- Otherwise spawn the mob
 		local pos = minetest.get_pointed_thing_position(pointed_thing, true)
 		if minetest.is_protected(pos, player and player:get_player_name() or "") then return end
-		local mobdef = minetest.registered_entities[name]
+		local mobdef = creatura.get_object_properties(name)
 		local spawn_offset = abs(mobdef.collisionbox[2])
 		pos.y = (pos.y - 0.49) + spawn_offset
 		if def.antispam then
@@ -270,7 +270,7 @@ function creatura.register_abm_spawn(mob, def)
 			return
 		end
 
-		local mob_def = minetest.registered_entities[mob]
+		local mob_def = creatura.get_object_properties(mob)
 		local mob_width = mob_def.collisionbox[4]
 		local mob_height = mob_def.collisionbox[5]
 
@@ -555,7 +555,7 @@ function creatura.register_spawn_egg(name, col1, col2, inventory_image)
 		inventory_image = inventory_image,
 		stack_max = 99,
 		on_place = function(itemstack, _, pointed_thing)
-			local mobdef = minetest.registered_entities[name]
+			local mobdef = creatura.get_object_properties(name)
 			local spawn_offset = abs(mobdef.collisionbox[2])
 			local pos = minetest.get_pointed_thing_position(pointed_thing, true)
 			pos.y = (pos.y - 0.4) + spawn_offset

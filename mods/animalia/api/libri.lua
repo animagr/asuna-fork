@@ -106,7 +106,8 @@ end
 
 local function mob_textures(name, mesh_no)
 	local def = minetest.registered_entities[name]
-	local textures = def.textures
+	local props = creatura.get_object_properties(def)
+	local textures = props.textures
 	if def.male_textures
 	or def.female_textures then
 		textures = {unpack(def.male_textures), unpack(def.female_textures)}
@@ -123,6 +124,7 @@ local function generate_page(mob)
 	local name = mob:split(":")[2]
 	local def = minetest.registered_entities[mob]
 	if not def then return end
+	local props = creatura.get_object_properties(def)
 	local page = {
 		{ -- Info
 			element_type = "label",
@@ -137,7 +139,7 @@ local function generate_page(mob)
 			size = {x = 5, y = 5},
 			mesh_iter = def.meshes and 1,
 			texture_iter = 1,
-			text = "mesh;" .. def.mesh .. ";" .. mob_textures(mob)[1] .. ";-30,225;false;false;0,0;0"
+			text = "mesh;" .. props.mesh .. ";" .. mob_textures(mob)[1] .. ";-30,225;false;false;0,0;0"
 		},
 		{ -- Spawn Biome
 			element_type = "image",
@@ -421,7 +423,8 @@ local function iterate_libri_images()
 						textures = mob_textures(page, info.mesh_iter)
 					end
 
-					local mesh = (info.mesh_iter and def.meshes[info.mesh_iter]) or def.mesh
+					local props = creatura.get_object_properties(def)
+					local mesh = (info.mesh_iter and def.meshes[info.mesh_iter]) or props.mesh
 					info.text = "mesh;" .. mesh .. ";" .. textures[info.texture_iter] .. ";-30,225;false;false;0,0;0]"
 				end
 				if info.biome_iter then

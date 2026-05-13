@@ -492,10 +492,8 @@ minetest.register_craftitem("animalia:net", {
 				local mob = itemstack:get_meta():get_string("mob")
 				local staticdata = itemstack:get_meta():get_string("staticdata")
 				if mob ~= "" then
-					pos.y = pos.y +
-								math.abs(
-									minetest.registered_entities[mob]
-										.collisionbox[2])
+					local props = creatura.get_object_properties(mob)
+					pos.y = pos.y + math.abs(props.collisionbox[2])
 					minetest.add_entity(pos, mob, staticdata)
 					itemstack:get_meta():set_string("mob", nil)
 					itemstack:get_meta():set_string("staticdata", nil)
